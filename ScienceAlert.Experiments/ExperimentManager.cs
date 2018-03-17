@@ -40,7 +40,7 @@ namespace ScienceAlert.Experiments
         void Awake()
         {
             vesselStorage = gameObject.AddComponent<StorageCache>();
-            biomeFilter = gameObject.AddComponent<BiomeFilter>();
+            biomeFilter = GetComponent<BiomeFilter>();
             scienceAlert = gameObject.GetComponent<ScienceAlert>();
             audio = GetComponent<AudioPlayer>() ?? AudioPlayer.Audio;
 
