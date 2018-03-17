@@ -87,7 +87,7 @@ namespace ScienceAlert.Experiments
         private bool VerifyBiomeResult(double lat, double lon, CBAttributeMapSO.MapAttribute target)
         {
             if (projectedMap == null) return true; // we'll have to assume it's accurate since we can't prove otherwise
-            if (target == null || target.mapColor == null) return true; // this shouldn't happen 
+            if (target == null || target.mapColor == null) return true; // this shouldn't happen
 
             lon -= Mathf.PI * 0.5f;
             if (lon < 0d) lon += Mathf.PI * 2d;
@@ -159,13 +159,14 @@ namespace ScienceAlert.Experiments
                     pixels[y * projection.width + x] = (Color32)newBody.BiomeMap.GetAtt(lat, lon).mapColor;
                 }
 
-                if (y % 5 == 0)
+                // Disabled to reduce performance impact, though it makes it take longer overall.
+                //if (y % 5 == 0)
                     yield return null;
             }
 
             projection.SetPixels32(pixels);
             projection.Apply();
- 
+
             current = newBody;
             projectedMap = projection;
             projector = null; // we're finished!
