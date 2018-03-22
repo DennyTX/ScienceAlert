@@ -68,5 +68,20 @@ namespace ScienceAlert.Experiments
             var luckyKerbal = crewChoices[UnityEngine.Random.Range(0, crewChoices.Count - 1)];
             return FlightEVA.SpawnEVA(luckyKerbal.KerbalRef);
         }
+
+        public override bool UpdateStatus(ExperimentSituations experimentSituation, out bool newReport)
+        {
+            newReport = false;
+
+            // If the astronaut complex is level 0, EVA is only allowed when landed on the surface.
+            if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) == 0 && experimentSituation != ExperimentSituations.SrfLanded)
+            {
+                Available = false;
+                lastAvailableId = "";
+                return false;
+            }
+
+            return base.UpdateStatus(experimentSituation, out newReport);
+        }
     }
 }
