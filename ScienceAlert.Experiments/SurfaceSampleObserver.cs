@@ -19,5 +19,20 @@ namespace ScienceAlert.Experiments
                 return Settings.Instance.CheckSurfaceSampleNotEva && base.IsReadyOnboard;
             }
         }
+
+        public override bool UpdateStatus(ExperimentSituations experimentSituation, out bool newReport)
+        {
+            newReport = false;
+
+            // Surface samples are not allowed at astronaut level 0.
+            if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) == 0)
+            {
+                Available = false;
+                lastAvailableId = "";
+                return false;
+            }
+
+            return base.UpdateStatus(experimentSituation, out newReport);
+        }
     }
 }
