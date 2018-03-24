@@ -151,22 +151,25 @@ namespace ScienceAlert.Experiments
                 worker.Abort();
             }
 
+            var projectionWidth = projection.width;
+            var projectionHeight = projection.height;
+
             worker = new Thread(() =>
             {
-                for (int y = 0; y < projection.height; ++y)
+                for (int y = 0; y < projectionHeight; ++y)
                 {
-                    for (int x = 0; x < projection.width; ++x)
+                    for (int x = 0; x < projectionWidth; ++x)
                     {
                         // convert x and y into uv coordinates
-                        float u = (float)x / projection.width;
-                        float v = (float)y / projection.height;
+                        float u = (float)x / projectionWidth;
+                        float v = (float)y / projectionHeight;
 
                         // convert uv coordinates into latitude and longitude
                         double lat = Math.PI * v - Math.PI * 0.5;
                         double lon = 2d * Math.PI * u + Math.PI * 0.5;
 
                         // set biome color in our clean texture
-                        pixels[y * projection.width + x] = (Color32)newBody.BiomeMap.GetAtt(lat, lon).mapColor;
+                        pixels[y * projectionWidth + x] = (Color32)newBody.BiomeMap.GetAtt(lat, lon).mapColor;
                     }
                 }
 
