@@ -490,7 +490,8 @@ namespace ScienceAlert.Windows
 			else
 				editText = ScienceAlertProfileManager.ActiveProfile.name;
 
-		    if (ScienceAlertProfileManager.HaveStoredProfile(editText))
+            // Confirm overwrite an existing non-active profile
+		    if (ScienceAlertProfileManager.HaveStoredProfile(editText) && ScienceAlertProfileManager.ActiveProfile.name != editText)
 		    {
 		        popup = PopupDialog.SpawnPopupDialog(new MultiOptionDialog("","",
 		                $"Profile '{editText}' already exists!", HighLogic.UISkin,
