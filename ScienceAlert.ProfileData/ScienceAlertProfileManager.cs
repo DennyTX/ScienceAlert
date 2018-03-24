@@ -345,6 +345,10 @@ namespace ScienceAlert.ProfileData
             p.name = name;
             p.modified = false;
             Profile newProfile = p.Clone();
+
+            // If a profile already exists with this name (e.g. if saving the active profile and the name is unchanged) then remove it first.
+            DeleteProfile(name);
+
             Instance.storedProfiles.Add(name, newProfile);
         }
 
