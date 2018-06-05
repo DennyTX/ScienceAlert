@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using ReeperCommon;
 using UnityEngine;
 
@@ -10,8 +12,9 @@ namespace ScienceAlert.Experiments
 
         private CelestialBody current;      // which CelestialBody we've got a cached biome map texture for
         private Texture2D projectedMap;     // this is the cleaned biome map of the current CelestialBody
-        private System.Collections.IEnumerator projector;   // this coroutine constructs the projectedMap from current CelestialBody
         private const float COLOR_THRESHOLD = 0.005f;       // Maximum color difference for two colors to be considered the same
+        private Queue<Action> actions = new Queue<Action>(); // Actions to be performed during Update
+        private Thread worker; // Worker thread for ReprojectMap
 
         void Start()
         {
@@ -28,8 +31,13 @@ namespace ScienceAlert.Experiments
 
         public void Update()
         {
-            if (projector != null)
-                projector.MoveNext();
+            lock(actions)
+            {
+                while (actions.Count > 0)
+                {
+                    actions.Dequeue()();
+                }
+            }
         }
 
         public bool GetCurrentBiome(out string biome)
@@ -87,7 +95,7 @@ namespace ScienceAlert.Experiments
         private bool VerifyBiomeResult(double lat, double lon, CBAttributeMapSO.MapAttribute target)
         {
             if (projectedMap == null) return true; // we'll have to assume it's accurate since we can't prove otherwise
-            if (target == null || target.mapColor == null) return true; // this shouldn't happen 
+            if (target == null || target.mapColor == null) return true; // this shouldn't happen
 
             lon -= Mathf.PI * 0.5f;
             if (lon < 0d) lon += Mathf.PI * 2d;
@@ -108,22 +116,20 @@ namespace ScienceAlert.Experiments
 
         private void ReprojectBiomeMap(CelestialBody newBody)
         {
-            projector = ReprojectMap(newBody);
+            ReprojectMap(newBody);
         }
 
-        private System.Collections.IEnumerator ReprojectMap(CelestialBody newBody)
+        private void ReprojectMap(CelestialBody newBody)
         {
             if (current == newBody)
             {
-                projector = null;
-                yield break;
+                return;
             }
 
             if (newBody == null)
             {
-                projector = null;
                 current = null;
-                yield break;
+                return;
             }
 
             current = null;
@@ -131,44 +137,58 @@ namespace ScienceAlert.Experiments
             if (newBody.BiomeMap == null || newBody.BiomeMap.MapName == null)
             {
                 projectedMap = null;
-                projector = null;
-                yield break;
+                return;
             }
 
             Texture2D projection = new Texture2D(newBody.BiomeMap.Width, newBody.BiomeMap.Height, TextureFormat.ARGB32, false);
             projection.filterMode = FilterMode.Point;
 
-            yield return null;
-
             float timer = Time.realtimeSinceStartup;
             Color32[] pixels = projection.GetPixels32();
 
-            for (int y = 0; y < projection.height; ++y)
+            if (worker != null)
             {
-                for (int x = 0; x < projection.width; ++x)
-                {
-                    // convert x and y into uv coordinates
-                    float u = (float)x / projection.width;
-                    float v = (float)y / projection.height;
-
-                    // convert uv coordinates into latitude and longitude
-                    double lat = Math.PI * v - Math.PI * 0.5;
-                    double lon = 2d * Math.PI * u + Math.PI * 0.5;
-
-                    // set biome color in our clean texture
-                    pixels[y * projection.width + x] = (Color32)newBody.BiomeMap.GetAtt(lat, lon).mapColor;
-                }
-
-                if (y % 5 == 0)
-                    yield return null;
+                worker.Abort();
             }
 
-            projection.SetPixels32(pixels);
-            projection.Apply();
- 
-            current = newBody;
-            projectedMap = projection;
-            projector = null; // we're finished!
+            var projectionWidth = projection.width;
+            var projectionHeight = projection.height;
+
+            worker = new Thread(() =>
+            {
+                for (int y = 0; y < projectionHeight; ++y)
+                {
+                    for (int x = 0; x < projectionWidth; ++x)
+                    {
+                        // convert x and y into uv coordinates
+                        float u = (float)x / projectionWidth;
+                        float v = (float)y / projectionHeight;
+
+                        // convert uv coordinates into latitude and longitude
+                        double lat = Math.PI * v - Math.PI * 0.5;
+                        double lon = 2d * Math.PI * u + Math.PI * 0.5;
+
+                        // set biome color in our clean texture
+                        pixels[y * projectionWidth + x] = (Color32)newBody.BiomeMap.GetAtt(lat, lon).mapColor;
+                    }
+                }
+
+                lock (actions)
+                {
+                    actions.Enqueue(() =>
+                    {
+                        projection.SetPixels32(pixels);
+                        projection.Apply();
+
+                        current = newBody;
+                        projectedMap = projection;
+
+                        worker = null;
+                    });
+                }
+            });
+            worker.IsBackground = true;
+            worker.Start();
         }
 
         private void OnDominantBodyChanged(GameEvents.FromToAction<CelestialBody, CelestialBody> bodies)
@@ -181,6 +201,6 @@ namespace ScienceAlert.Experiments
             ReprojectBiomeMap(v.mainBody);
         }
 
-        public bool IsBusy => projector != null;
+        public bool IsBusy => worker != null;
     }
 }
