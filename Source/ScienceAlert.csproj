@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{835DC165-6942-4C55-A84E-A9DE6B6FA840}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>ScienceAlert</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>R:\KSP_1.4.3_dev\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ClickThroughBlocker">
+      <HintPath>R:\KSP_1.4.3_dev\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="ToolbarControl">
+      <HintPath>R:\KSP_1.4.3_dev\GameData\001_ToolbarControl\Plugins\ToolbarControl.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>R:\KSP_1.4.3_dev\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>R:\KSP_1.4.3_dev\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyVersion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyVersion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReeperCommon\ConfigNodeTypeHandler.cs" />
+    <Compile Include="ReeperCommon\ReeperConfigNodeExtensions.cs" />
+    <Compile Include="ReeperCommon\DraggableWindow.cs" />
+    <Compile Include="ReeperCommon\AudioPlayer.cs" />
+    <Compile Include="ReeperCommon\ConfigUtil.cs" />
+    <Compile Include="ReeperCommon\Log.cs" />
+    <Compile Include="ReeperCommon\PlayableSound.cs" />
+    <Compile Include="ReeperCommon\ResourceUtil.cs" />
+    <Compile Include="ScienceAlert\Util.cs" />
+    <Compile Include="ScienceAlert.Experiments\EvaReportObserver.cs" />
+    <Compile Include="ScienceAlert.Experiments\ExperimentObserver.cs" />
+    <Compile Include="ScienceAlert.Experiments\RequiresCrew.cs" />
+    <Compile Include="ScienceAlert.Experiments\SurfaceSampleObserver.cs" />
+    <Compile Include="ScienceAlert.Experiments\BiomeFilter.cs" />
+    <Compile Include="ScienceAlert.Experiments\ExperimentManager.cs" />
+    <Compile Include="ScienceAlert.ProfileData\ExperimentSettings.cs" />
+    <Compile Include="ScienceAlert.ProfileData\Profile.cs" />
+    <Compile Include="ScienceAlert.Toolbar\BlizzyInterface.cs" />
+    <Compile Include="ScienceAlert.Toolbar\ClickInfo.cs" />
+    <Compile Include="ScienceAlert.Toolbar\IToolbar.cs" />
+    <Compile Include="ScienceAlert.Windows\DraggableDebugWindow.cs" />
+    <Compile Include="ScienceAlert.Windows\DraggableExperimentList.cs" />
+    <Compile Include="ScienceAlert.Windows\DraggableOptionsWindow.cs" />
+    <Compile Include="ScienceAlert.Windows\WindowEventLogic.cs" />
+    <Compile Include="ScienceAlert\Button.cs" />
+    <Compile Include="ScienceAlert\ButtonTypes.cs" />
+    <Compile Include="ScienceAlert\GameScenesVisibility.cs" />
+    <Compile Include="ScienceAlert\Interfaces.cs" />
+    <Compile Include="ScienceAlert\MagicDataTransmitter.cs" />
+    <Compile Include="ScienceAlert\MouseEvents.cs" />
+    <Compile Include="ScienceAlert\PopupMenuDrawable.cs" />
+    <Compile Include="ScienceAlert\SCANsatInterface.cs" />
+    <Compile Include="ScienceAlert\ScienceAlert.cs" />
+    <Compile Include="ScienceAlert.ProfileData\ScienceAlertProfileManager.cs" />
+    <Compile Include="ScienceAlert\Settings.cs" />
+    <Compile Include="ScienceAlert\StorageCache.cs" />
+    <Compile Include="ScienceAlert.Toolbar\ToolbarManager.cs" />
+    <Compile Include="ScienceAlert.Toolbar\ToolbarTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Textures\btnBackground.png" />
+    <EmbeddedResource Include="Textures\btnClose.png" />
+    <EmbeddedResource Include="Textures\btnDelete.png" />
+    <EmbeddedResource Include="Textures\btnExpand.png" />
+    <EmbeddedResource Include="Textures\btnLock.png" />
+    <EmbeddedResource Include="Textures\btnOpen.png" />
+    <EmbeddedResource Include="Textures\btnRename.png" />
+    <EmbeddedResource Include="Textures\btnSave.png" />
+    <EmbeddedResource Include="Textures\btnUnlock.png" />
+    <EmbeddedResource Include="Textures\flask.png" />
+    <EmbeddedResource Include="Textures\sheet.png" />
+    <EmbeddedResource Include="Textures\flask-38.png" />
+    <EmbeddedResource Include="Textures\sheet-38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"..\..\..\..\pdb2mdb.exe" "$(TargetPath)"
+
+start /D D:\Users\jbb\github\ScienceAlert /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
+
+if $(ConfigurationName) == Release (
+	start /D D:\Users\jbb\github\ScienceAlert /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+)
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE\texttransform.exe"
+
+%25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"
+</PreBuildEvent>
+  </PropertyGroup>
+</Project>

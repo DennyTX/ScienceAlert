@@ -1,0 +1,5 @@
+1.9.2
+	Adoption by LGG
+	Added support for ToolbarController
+	Added support for the ClickThrough Blocker
+	Removed old code used for the Blizzy Toolbar
