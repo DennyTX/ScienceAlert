@@ -395,6 +395,13 @@ namespace ScienceAlert
             gameObject.AddComponent<WindowEventLogic>();
             ScanInterfaceType = Settings.Instance.ScanInterfaceType;
             //ToolbarType = Settings.Instance.ToolbarInterfaceType;
+
+            string[] resourceNames = this.GetType().Assembly.GetManifestResourceNames();
+            foreach (string resourceName in resourceNames)
+            {
+                Debug.Log("resource: " + resourceName);
+            }
+
             SliceAtlasTexture();
             CreateButton();
         }
