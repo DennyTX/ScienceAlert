@@ -54,7 +54,7 @@ namespace ScienceAlert.Toolbar
                     // load normal flask texture
                     Log.Debug("Loading normal flask texture");
 
-                    Texture2D nflask = ResourceUtil.GetEmbeddedTexture("Textures.flask.png", true);
+                    Texture2D nflask = ResourceUtil.GetEmbeddedTexture("Textures.flask", true);
                     if (nflask == null)
                     {
                         Log.Error("Failed to create normal flask texture!");

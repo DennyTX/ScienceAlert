@@ -37,8 +37,8 @@ namespace ScienceAlert
         public static ScienceAlert Instance;
         //private Settings.ToolbarInterface buttonInterfaceType;
         private Settings.ScanInterface scanInterfaceType;
-        public event Callback OnScanInterfaceChanged = delegate{};
-        public event Callback OnToolbarButtonChanged = delegate{};
+        public event Callback OnScanInterfaceChanged = delegate { };
+        public event Callback OnToolbarButtonChanged = delegate { };
 
         //public IToolbar Button => button;
 
@@ -407,7 +407,7 @@ namespace ScienceAlert
                 Button.Drawable = null;
             }
 #endif
-             if (toolbarControl != null)
+            if (toolbarControl != null)
             {
                 toolbarControl.OnDestroy();
                 Destroy(toolbarControl);
@@ -416,4 +416,3 @@ namespace ScienceAlert
         }
     }
 }
-

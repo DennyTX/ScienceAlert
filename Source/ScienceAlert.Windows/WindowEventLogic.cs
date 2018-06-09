@@ -24,7 +24,8 @@ namespace ScienceAlert.Windows
             DraggableWindow.CloseTexture = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnClose.png");
             DraggableWindow.LockTexture = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnLock.png");
             DraggableWindow.UnlockTexture = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnUnlock.png");
-            DraggableWindow.ButtonHoverBackground = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnBackground.png");
+            DraggableWindow.ButtonHoverBackground =  ResourceUtil.LocateTexture("ScienceAlert.Resources.btnBackground.png");
+
             DraggableWindow.ButtonSound = "click1";
 
             scienceAlert = GetComponent<ScienceAlert>();
