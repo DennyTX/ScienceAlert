@@ -25,7 +25,7 @@ namespace ScienceAlert
         }
     }
 
- 
+
 
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class ScienceAlert : MonoBehaviour
@@ -184,7 +184,10 @@ namespace ScienceAlert
                 else
                 { // textures already loaded
                     for (int i = 0; i < FrameCount; ++i)
+                    {
+                        StarFlaskTextures.Add(NormalFlaskTexture + GetFrame(i + 1, 4));
                         StarFlaskTextures38.Add(NormalFlaskTexture + "-38-" + GetFrame(i + 1, 4));
+                    }
                 }
             }
             catch (Exception e)
@@ -218,7 +221,7 @@ namespace ScienceAlert
         /// <summary>
         /// Is called by Update whenever animation exists to
         /// update animation frame.
-        /// 
+        ///
         /// Note: I didn't make this into an actual coroutine
         /// because StopCoroutine seems to sometimes throw
         /// exceptions
@@ -268,7 +271,7 @@ namespace ScienceAlert
 #if true
         private void Update()
         {
-            
+
             if (animation != null)
             {
                 animation.MoveNext();
