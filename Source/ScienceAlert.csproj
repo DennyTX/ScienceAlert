@@ -66,6 +66,7 @@
     <Compile Include="ReeperCommon\Log.cs" />
     <Compile Include="ReeperCommon\PlayableSound.cs" />
     <Compile Include="ReeperCommon\ResourceUtil.cs" />
+    <Compile Include="ScienceAlert\ExcludeFilters.cs" />
     <Compile Include="ScienceAlert\Util.cs" />
     <Compile Include="ScienceAlert.Experiments\EvaReportObserver.cs" />
     <Compile Include="ScienceAlert.Experiments\ExperimentObserver.cs" />
@@ -75,27 +76,17 @@
     <Compile Include="ScienceAlert.Experiments\ExperimentManager.cs" />
     <Compile Include="ScienceAlert.ProfileData\ExperimentSettings.cs" />
     <Compile Include="ScienceAlert.ProfileData\Profile.cs" />
-    <Compile Include="ScienceAlert.Toolbar\BlizzyInterface.cs" />
-    <Compile Include="ScienceAlert.Toolbar\ClickInfo.cs" />
-    <Compile Include="ScienceAlert.Toolbar\IToolbar.cs" />
     <Compile Include="ScienceAlert.Windows\DraggableDebugWindow.cs" />
     <Compile Include="ScienceAlert.Windows\DraggableExperimentList.cs" />
     <Compile Include="ScienceAlert.Windows\DraggableOptionsWindow.cs" />
     <Compile Include="ScienceAlert.Windows\WindowEventLogic.cs" />
-    <Compile Include="ScienceAlert\Button.cs" />
-    <Compile Include="ScienceAlert\ButtonTypes.cs" />
-    <Compile Include="ScienceAlert\GameScenesVisibility.cs" />
     <Compile Include="ScienceAlert\Interfaces.cs" />
     <Compile Include="ScienceAlert\MagicDataTransmitter.cs" />
-    <Compile Include="ScienceAlert\MouseEvents.cs" />
-    <Compile Include="ScienceAlert\PopupMenuDrawable.cs" />
     <Compile Include="ScienceAlert\SCANsatInterface.cs" />
     <Compile Include="ScienceAlert\ScienceAlert.cs" />
     <Compile Include="ScienceAlert.ProfileData\ScienceAlertProfileManager.cs" />
     <Compile Include="ScienceAlert\Settings.cs" />
     <Compile Include="ScienceAlert\StorageCache.cs" />
-    <Compile Include="ScienceAlert.Toolbar\ToolbarManager.cs" />
-    <Compile Include="ScienceAlert.Toolbar\ToolbarTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Textures\btnBackground.png" />

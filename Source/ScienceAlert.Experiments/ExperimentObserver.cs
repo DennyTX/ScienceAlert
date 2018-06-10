@@ -63,7 +63,7 @@ namespace ScienceAlert.Experiments
                 .FindPartModulesImplementing<ModuleScienceExperiment>();
 
             foreach (var potential in potentials)
-                if (potential.experimentID == experiment.id)
+                if (potential.experimentID == experiment.id && !ExcludeFilters.IsExcluded(potential))
                     modules.Add(potential);
         }
 
@@ -290,7 +290,7 @@ namespace ScienceAlert.Experiments
 
 
         #region Properties
-
+        
         protected ModuleScienceExperiment GetNextOnboardExperimentModule()
         {
             foreach (var module in modules)

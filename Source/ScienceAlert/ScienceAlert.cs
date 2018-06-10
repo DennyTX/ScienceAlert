@@ -35,6 +35,8 @@ namespace ScienceAlert
         private ScanInterface scanInterface;
         public DraggableOptionsWindow optionsWindow;
         public static ScienceAlert Instance;
+        internal ExcludeFilters excludeFilters;
+
         //private Settings.ToolbarInterface buttonInterfaceType;
         private Settings.ScanInterface scanInterfaceType;
         public event Callback OnScanInterfaceChanged = delegate { };
@@ -54,7 +56,7 @@ namespace ScienceAlert
         {
             if (toolbarControl == null)
             {
-                Log.Write("ExperimentManager.CreateButton", Log.LogMask.Debug);
+                Log.Write("ExperimentManager.CreateButton", Log.LEVEL.INFO);
 
                 toolbarControl = gameObject.AddComponent<ToolbarControl>();
                 toolbarControl.AddToAllToolbars(ButtonLeftClicked, ButtonLeftClicked,
@@ -97,7 +99,7 @@ namespace ScienceAlert
                         GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, nflask, false, true, true);
                         ti.name = NormalFlaskTexture;
                         GameDatabase.Instance.databaseTexture.Add(ti);
-                        Log.Debug("Created normal flask texture {0}", ti.name);
+                       // Log.Debug("Created normal flask texture {0}", ti.name);
                     }
                     nflask = ResourceUtil.GetEmbeddedTexture("Textures.flask-38.png", true);
                     if (nflask == null)
@@ -109,7 +111,7 @@ namespace ScienceAlert
                         GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, nflask, false, true, true);
                         ti.name = NormalFlaskTexture + "-38";
                         GameDatabase.Instance.databaseTexture.Add(ti);
-                        Log.Debug("Created normal flask texture {0}", ti.name);
+                       // Log.Debug("Created normal flask texture {0}", ti.name);
                     }
                     //
                     // Load textures for animation here
@@ -140,7 +142,7 @@ namespace ScienceAlert
                             ti.name = StarFlaskTextures.Last();
 
                             GameDatabase.Instance.databaseTexture.Add(ti);
-                            Log.Debug("Added sheet texture {0}", ti.name);
+                           // Log.Debug("Added sheet texture {0}", ti.name);
                         }
 
                         RenderTexture.active = oldRt;
@@ -173,7 +175,7 @@ namespace ScienceAlert
                             ti.name = StarFlaskTextures38.Last();
 
                             GameDatabase.Instance.databaseTexture.Add(ti);
-                            Log.Debug("Added sheet texture {0}", ti.name);
+                           // Log.Debug("Added sheet texture {0}", ti.name);
                         }
 
                         RenderTexture.active = oldRt;
@@ -214,7 +216,7 @@ namespace ScienceAlert
 
         internal void PlayAnimation()
         {
-            Log.Write("PlayAnimation", Log.LogMask.Debug);
+            Log.Write("PlayAnimation", Log.LEVEL.INFO);
             if (animation == null) animation = DoAnimation();
             //StartCoroutine(DoAnimation());
         }
@@ -246,7 +248,7 @@ namespace ScienceAlert
         }
         internal void StopAnimation()
         {
-            Log.Write("StopAnimation", Log.LogMask.Debug);
+            Log.Write("StopAnimation", Log.LEVEL.INFO);
             animation = null;
             //StopCoroutine(DoAnimation());
         }
@@ -255,7 +257,7 @@ namespace ScienceAlert
         /// </summary>
         public void SetUnlit()
         {
-            Log.Write("SetUnlit", Log.LogMask.Debug);
+            Log.Write("SetUnlit", Log.LEVEL.INFO);
             animation = null;
             TexturePath = NormalFlaskTexture;
             toolbarControl.SetTexture(NormalFlaskTexture + "-38", NormalFlaskTexture);
@@ -263,7 +265,7 @@ namespace ScienceAlert
 
         public void SetLit()
         {
-            Log.Write("SetLit", Log.LogMask.Debug);
+            Log.Write("SetLit", Log.LEVEL.INFO);
             animation = null;
             TexturePath = StarFlaskTextures[0];
             toolbarControl.SetTexture(StarFlaskTextures38[0], StarFlaskTextures[0]);
@@ -275,42 +277,6 @@ namespace ScienceAlert
             if (animation != null)
             {
                 animation.MoveNext();
-            }
-        }
-#endif
-#if false
-        public Settings.ToolbarInterface ToolbarType
-        {
-            get
-            {
-                return buttonInterfaceType;
-            }
-            set
-            {
-                Debug.Log("ScienceAlert, Toolbartype: " + ((Settings.ToolbarInterface)value).ToString());
-                if (toolbarControl != null)
-                    Debug.Log("ScienceAlert, button is not null");
-                else
-                    Debug.Log("ScienceAlert, button is null");
-                if (value == buttonInterfaceType && toolbarControl != null) return;
-                switch (buttonInterfaceType)
-                {
-                    case Settings.ToolbarInterface.BlizzyToolbar:
-                        Destroy(button as BlizzyInterface);
-                        break;
-                }
-                button = null;
-                switch (value)
-                {
-                    case Settings.ToolbarInterface.BlizzyToolbar:
-                        if (ToolbarManager.ToolbarAvailable)
-                            button = gameObject.AddComponent<BlizzyInterface>();
-                        else
-                            Debug.Log("ScienceAlert, toobar not available");
-                        break;
-                }
-                buttonInterfaceType = value;
-                OnToolbarButtonChanged();
             }
         }
 #endif
@@ -393,27 +359,22 @@ namespace ScienceAlert
             gameObject.AddComponent<BiomeFilter>();
             gameObject.AddComponent<ExperimentManager>();
             gameObject.AddComponent<WindowEventLogic>();
+            excludeFilters = new ExcludeFilters();
             ScanInterfaceType = Settings.Instance.ScanInterfaceType;
             //ToolbarType = Settings.Instance.ToolbarInterfaceType;
-
+#if false
             string[] resourceNames = this.GetType().Assembly.GetManifestResourceNames();
             foreach (string resourceName in resourceNames)
             {
                 Debug.Log("resource: " + resourceName);
             }
-
+#endif
             SliceAtlasTexture();
             CreateButton();
         }
 
         public void OnDestroy()
         {
-#if false
-            if (Button != null)
-            {
-                Button.Drawable = null;
-            }
-#endif
             if (toolbarControl != null)
             {
                 toolbarControl.OnDestroy();

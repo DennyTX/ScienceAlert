@@ -39,7 +39,7 @@ namespace ScienceAlert.Experiments
 
         void Awake()
         {
-            Log.Write("ExperimentManager.Awake", Log.LogMask.Debug);
+            Log.Write("ExperimentManager.Awake", Log.LEVEL.INFO);
 
             vesselStorage = gameObject.AddComponent<StorageCache>();
             biomeFilter = GetComponent<BiomeFilter>();
@@ -102,7 +102,7 @@ namespace ScienceAlert.Experiments
 
         private System.Collections.IEnumerator UpdateObservers()
         {
-            Log.Write("ExperimentManager.UpdateObservers", Log.LogMask.Debug);
+            Log.Write("ExperimentManager.UpdateObservers", Log.LEVEL.INFO);
 
             while (true)
             {
@@ -187,7 +187,7 @@ namespace ScienceAlert.Experiments
 
         public int RebuildObserverList()
         {
-            Log.Write("ExperimentManager.RebuildObserverList", Log.LogMask.Debug);
+            Log.Write("ExperimentManager.RebuildObserverList", Log.LEVEL.INFO);
 
             observers.Clear();
             ScanInterface scanInterface = GetComponent<ScanInterface>();
@@ -199,7 +199,7 @@ namespace ScienceAlert.Experiments
             foreach (var expid in ResearchAndDevelopment.GetExperimentIDs())
                 if (expid != "evaReport" && expid != "surfaceSample") // special cases
 
-                    if (FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>().Any(mse => mse.experimentID == expid))
+                    if (FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>().Any(mse => mse.experimentID == expid && !ExcludeFilters.IsExcluded(mse)))
                         observers.Add(new ExperimentObserver(vesselStorage, ProfileManager.ActiveProfile[expid], biomeFilter, scanInterface, expid));
 
             observers.Add(new SurfaceSampleObserver(vesselStorage, ProfileManager.ActiveProfile["surfaceSample"], biomeFilter, scanInterface));

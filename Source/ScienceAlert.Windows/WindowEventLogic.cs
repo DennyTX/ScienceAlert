@@ -49,72 +49,15 @@ namespace ScienceAlert.Windows
             //scienceAlert.OnToolbarButtonChanged += OnToolbarChanged;
             scienceAlert.OnScanInterfaceChanged += OnInterfaceChanged;
 #if false
-            optionsWindow.OnVisibilityChange += OnWindowVisibilityChanged;
-            experimentList.OnVisibilityChange += OnWindowVisibilityChanged;
             debugWindow.OnVisibilityChange += OnWindowVisibilityChanged;
 #endif
             //OnToolbarChanged();
             OnInterfaceChanged();
         }
 
-#if false
-        private void OnToolbarChanged()
-        {
-            scienceAlert.Button.OnClick += OnToolbarClick;
-        }
-#endif
         private void OnInterfaceChanged()
         {
             experimentList.scanInterface = GetComponent<ScanInterface>();
         }
-
-#if falsae
-        private void OnToolbarClick(Toolbar.ClickInfo clickInfo)
-        {
-            if (optionsWindow.Visible || experimentList.Visible || debugWindow.Visible)
-            {
-                Log.Debug("WindowEventLogic: Hiding window(s)");
-                optionsWindow.Visible = experimentList.Visible = debugWindow.Visible = false;
-                AudioPlayer.Audio.PlayUI("click1", 0.5f);
-            }
-            else
-            {
-                switch (clickInfo.button)
-                {
-                    case 0: // left click, show experiment list
-                        experimentList.Visible = true;
-                        break;
-                    case 1: // right click, show options window
-                        optionsWindow.Visible = true;
-                        break;
-                    case 2: // middle click, show debug window (for AppLauncher this is alt + right click)
-                        debugWindow.Visible = true;
-                        break;
-                }
-                AudioPlayer.Audio.PlayUI("click1", 0.5f);
-            }
-        }
-
-        private void OnWindowVisibilityChanged(bool tf)
-        {
-            //if (scienceAlert.ToolbarType == Settings.ToolbarInterface.ApplicationLauncher)
-            //    if (tf)
-            //    {
-            //        GetComponent<Toolbar.AppLauncherInterface>().button.SetTrue(false);
-            //    }
-            //    else
-            //    {
-            //        if (!experimentList.Visible && !optionsWindow.Visible && !debugWindow.Visible)
-            //            GetComponent<Toolbar.AppLauncherInterface>().button.SetFalse(false);
-            //    }
-        }
-#endif
-#if false
-        private void Update()
-        {
-            var mouse = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-            DraggableWindow[] windows = new DraggableWindow[] { optionsWindow, experimentList, debugWindow };
-        }
-#endif
     }
 }

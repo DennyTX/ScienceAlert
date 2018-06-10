@@ -54,11 +54,6 @@ namespace ScienceAlert
         [DoNotSerialize]
         protected ScanInterface Interface;
 
-#if false
-        [DoNotSerialize]
-        protected ToolbarInterface ToolbarType;
-#endif
-
         [DoNotSerialize]
         public event Callback OnSave = delegate {};
 
@@ -148,28 +143,6 @@ namespace ScienceAlert
             }
         }
 
-#if false
-        public ToolbarInterface ToolbarInterfaceType
-        {
-            get
-            {
-                ToolbarInterface toolbarType = ToolbarType;
-                if (toolbarType != ToolbarInterface.BlizzyToolbar)
-                {
-                    return ToolbarType;
-                }
-                //if (!ToolbarManager.ToolbarAvailable)
-                //{
-                //    return Settings.ToolbarInterface.ApplicationLauncher;
-                //}
-                return ToolbarInterface.BlizzyToolbar;
-            }
-            set
-            {
-                ToolbarType = value;
-            }
-        }
-#endif
         private Settings()
         {
             skin = Object.Instantiate(HighLogic.Skin);

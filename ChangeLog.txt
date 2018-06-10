@@ -1,3 +1,10 @@
+1.9.2.2
+	Deleted about 1150 lines of unneeded code related to the Toolbar
+	Added exclusion list for experiments and manufacturers
+
+1.9.2.1
+	fixed the missed repopulating a list after a revert??
+
 1.9.2
 	Adoption by LGG
 	Added support for ToolbarController

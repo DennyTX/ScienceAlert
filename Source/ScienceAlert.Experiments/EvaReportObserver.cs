@@ -38,7 +38,7 @@ namespace ScienceAlert.Experiments
 
             var evas = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
             foreach (var exp in evas)
-                if (!exp.Deployed && exp.experimentID == experiment.id)
+                if (!exp.Deployed && exp.experimentID == experiment.id && !ExcludeFilters.IsExcluded(exp))
                 {
                     exp.DeployExperiment();
                     break;

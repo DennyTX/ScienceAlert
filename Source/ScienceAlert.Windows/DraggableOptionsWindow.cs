@@ -238,12 +238,7 @@ namespace ScienceAlert.Windows
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             //Settings.ToolbarInterface toolbarInterfaceType = Settings.Instance.ToolbarInterfaceType;
             Color color2 = GUI.color;
-#if false
-            if (!ToolbarManager.ToolbarAvailable)
-            {
-                GUI.color = Color.red;
-            }
-#endif
+
             //bool flag2 = AudibleToggle(Settings.Instance.ToolbarInterfaceType == Settings.ToolbarInterface.BlizzyToolbar, "Use Blizzy toolbar");
             GUI.color = color2;
             //if (flag2 && toolbarInterfaceType != Settings.ToolbarInterface.BlizzyToolbar && !ToolbarManager.ToolbarAvailable)
@@ -254,12 +249,7 @@ namespace ScienceAlert.Windows
             //             flag2 = false;
             //}
             //Settings.Instance.ToolbarInterfaceType = (flag2 ? Settings.ToolbarInterface.BlizzyToolbar : Settings.ToolbarInterface.ApplicationLauncher);
-#if false
-            if (scienceAlert.ToolbarType != Settings.Instance.ToolbarInterfaceType)
-            {
-                scienceAlert.ToolbarType = Settings.Instance.ToolbarInterfaceType;
-            }
-#endif
+
             GUILayout.EndHorizontal();
             GUILayout.Box("Crewed Vessel Settings", GUILayout.ExpandWidth(true));
             bool checkSurfaceSampleNotEva = Settings.Instance.CheckSurfaceSampleNotEva;
