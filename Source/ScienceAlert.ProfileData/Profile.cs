@@ -81,6 +81,7 @@ namespace ScienceAlert.ProfileData
         {
             Dictionary<string, ExperimentSettings>.KeyCollection keys = other.settings.Keys;
             settings = new Dictionary<string, ExperimentSettings>();
+
             foreach (string current in keys)
             {
                 settings.Add(current, new ExperimentSettings(other.settings[current]));
@@ -97,8 +98,10 @@ namespace ScienceAlert.ProfileData
             try
             {
                 List<string> experimentIDs = ResearchAndDevelopment.GetExperimentIDs();
-                foreach (string current in experimentIDs)
+                for (int i = experimentIDs.Count - 1; i >= 0; i--)
                 {
+                    string current = experimentIDs[i];
+
                     settings.Add(current, new ExperimentSettings());
                 }
             }

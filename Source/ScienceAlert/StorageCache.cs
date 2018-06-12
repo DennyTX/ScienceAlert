@@ -141,8 +141,9 @@ namespace ScienceAlert
                     vessel.rootPart.RemoveModule(vessel.rootPart.Modules.OfType<MagicDataTransmitter>().Single());
                 }
                 if (rootOnly) return;
-                foreach (Part current in vessel.Parts)
+                for (int i = vessel.Parts.Count - 1; i >= 0; i--)
                 {
+                    Part current = vessel.Parts[i];
                     if (current.Modules.Contains("MagicDataTransmitter"))
                     {
                         current.RemoveModule(current.Modules.OfType<MagicDataTransmitter>().First());
@@ -172,8 +173,10 @@ namespace ScienceAlert
                 }
             }
             if (magicTransmitter == null) return list;
-            foreach (ScienceData current2 in magicTransmitter.QueuedData)
+            for (int i = magicTransmitter.QueuedData.Count - 1; i >=0; i--)
             {
+                ScienceData current2 = magicTransmitter.QueuedData[i];
+
                 if (current2.subjectID != subjectid) continue;
                 list.Add(current2);
                 Log.Debug("ALERT:Found stored data in transmitter queue");

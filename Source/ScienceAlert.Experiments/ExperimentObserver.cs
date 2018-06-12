@@ -18,8 +18,7 @@ namespace ScienceAlert.Experiments
         protected string lastAvailableId; // Id of the last time the experiment was available
         protected string lastBiomeQuery; // the last good biome result we had
 
-        protected BiomeFilter biomeFilter
-            ; // Provides a little more accuracy when it comes to determining current biome (the original biome map has some filtering done on it)
+        protected BiomeFilter biomeFilter; // Provides a little more accuracy when it comes to determining current biome (the original biome map has some filtering done on it)
 
         protected ScanInterface scanInterface; // Determines whether we're allowed to know if an experiment is available
         protected float nextReportValue; // take a guess
@@ -62,9 +61,14 @@ namespace ScienceAlert.Experiments
             ScienceModuleList potentials = FlightGlobals.ActiveVessel
                 .FindPartModulesImplementing<ModuleScienceExperiment>();
 
-            foreach (var potential in potentials)
+            for (int i = potentials.Count - 1; i >= 0; i--)
+            {
+                ModuleScienceExperiment potential = potentials[i];
                 if (potential.experimentID == experiment.id && !ExcludeFilters.IsExcluded(potential))
+                {
                     modules.Add(potential);
+                }
+            }
         }
 
         protected virtual float GetScienceTotal(ScienceSubject subject, out List<ScienceData> data)
@@ -293,9 +297,12 @@ namespace ScienceAlert.Experiments
         
         protected ModuleScienceExperiment GetNextOnboardExperimentModule()
         {
-            foreach (var module in modules)
+            for (int i = modules.Count - 1; i >= 0; i--)
+            {
+                ModuleScienceExperiment module = modules[i];
                 if (!module.Deployed && !module.Inoperable)
                     return module;
+            }
             return null;
         }
 

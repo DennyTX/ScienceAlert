@@ -37,12 +37,15 @@ namespace ScienceAlert.Experiments
             }
 
             var evas = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
-            foreach (var exp in evas)
+            for (int i = evas.Count - 1; i >= 0; i--)
+            {
+                ModuleScienceExperiment exp = evas[i];
                 if (!exp.Deployed && exp.experimentID == experiment.id && !ExcludeFilters.IsExcluded(exp))
                 {
                     exp.DeployExperiment();
                     break;
                 }
+            }
             return true;
         }
 
@@ -56,8 +59,8 @@ namespace ScienceAlert.Experiments
         {
             List<ProtoCrewMember> crewChoices = new List<ProtoCrewMember>();
 
-            foreach (var crewable in crewableParts)
-                crewChoices.AddRange(crewable.protoModuleCrew);
+            for (int i = crewableParts.Count - 1; i >= 0; i--)
+                crewChoices.AddRange(crewableParts[i].protoModuleCrew);
 
             if (crewChoices.Count == 0) return false;
             if (MapView.MapIsEnabled) MapView.ExitMapView();

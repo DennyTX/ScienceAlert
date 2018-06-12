@@ -42,8 +42,6 @@ namespace ScienceAlert
         public event Callback OnScanInterfaceChanged = delegate { };
         public event Callback OnToolbarButtonChanged = delegate { };
 
-        //public IToolbar Button => button;
-
         internal const string MODID = "ScienceAlert_NS";
         internal const string MODNAME = "Science Alert";
 
@@ -231,7 +229,6 @@ namespace ScienceAlert
         /// <returns></returns>
         IEnumerator DoAnimation()
         {
-            Debug.Log("DoAnimation");
             float elapsed = 0f;
             while (true)
             {

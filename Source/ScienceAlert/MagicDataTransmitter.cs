@@ -89,8 +89,10 @@ namespace ScienceAlert
                 Destroy(this);
                 cacheOwner.ScheduleRebuild();
             }
-            foreach (IScienceDataTransmitter current in list)
+            for (int i = list.Count - 1; i >=0; i--)
             {
+                IScienceDataTransmitter current = list[i];
+
                 realTransmitters.Add(current, default(KeyValuePair<List<ScienceData>, Callback>));
                 toBeTransmitted.Add(current, new Queue<KeyValuePair<List<ScienceData>, Callback>>());
             }

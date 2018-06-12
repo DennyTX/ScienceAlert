@@ -351,8 +351,10 @@ namespace ScienceAlert.Windows
                 GUILayout.EndHorizontal();
                 GUILayout.Space(10f);
                 List<string> list = new List<string>(experimentIds.Keys);
-                foreach (string current in list)
+                for (int i = list.Count - 1; i >= 0; i--)
                 {
+                    string current = list[i];
+
                     GUILayout.Space(4f);
                     ExperimentSettings experimentSettings = ScienceAlertProfileManager.ActiveProfile[current];
                     string experimentTitle = ResearchAndDevelopment.GetExperiment(current).experimentTitle;

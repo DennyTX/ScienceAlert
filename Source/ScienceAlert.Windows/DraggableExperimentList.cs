@@ -80,6 +80,8 @@ namespace ScienceAlert.Windows
             base.OnGUI();
         }
 
+        bool doAll = false;
+        bool noEva = false;
         protected override void DrawUI()
         {
             GUILayout.BeginVertical();
@@ -92,19 +94,38 @@ namespace ScienceAlert.Windows
                 }
                 else
                 {
+                    doAll = false;
+                    if (GUILayout.Button("Deploy All", Settings.Skin.button))
+                    {
+                        doAll = true;
+                        noEva = false;
+                    }
+
+                    if (GUILayout.Button("Deploy All except EVA", Settings.Skin.button, GUILayout.Height(35)))
+                    {
+                        doAll = true;
+                        noEva = true;
+                    }
+                    
                     //-----------------------------------------------------
                     // Experiment list
                     //-----------------------------------------------------
-                    foreach (var observer in observers)
+
+                    foreach (ExperimentObserver observer in observers)
                         if (observer.Available)
                         {
                             var content = new GUIContent(observer.ExperimentTitle);
                             if (Settings.Instance.ShowReportValue) content.text += $" ({observer.NextReportValue:0.#})";
-                            if (!GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false))) continue;
+                            if (!doAll && !GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false)))
+                                continue;
+                            if (doAll && noEva && observer.Experiment.id == "evaReport")
+                                continue;
+
                             Log.Debug("Deploying {0}", observer.ExperimentTitle);
                             AudioPlayer.Audio.PlayUI("click2");
                             observer.Deploy();
                         }
+
                 }
             }
             GUILayout.EndVertical();

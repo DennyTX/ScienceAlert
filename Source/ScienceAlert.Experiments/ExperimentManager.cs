@@ -72,8 +72,8 @@ namespace ScienceAlert.Experiments
         public void OnVesselWasModified(Vessel vessel)
         {
             if (vessel != FlightGlobals.ActiveVessel) return;
-            foreach (var obs in observers)
-                obs.Rescan();
+            for (int i = observers.Count - 1; i >= 0; i--)
+                observers[i].Rescan();
             OnExperimentsScanned();
         }
 
@@ -162,7 +162,6 @@ namespace ScienceAlert.Experiments
                         }
                         else if (!observers.Any(ob => ob.Available))
                         {
-                            //scienceAlert.Button.SetUnlit();
                             ScienceAlert.Instance.SetUnlit();
 #if false
                             scienceAlert.Button.Important = false;
@@ -188,20 +187,23 @@ namespace ScienceAlert.Experiments
         public int RebuildObserverList()
         {
             Log.Write("ExperimentManager.RebuildObserverList", Log.LEVEL.INFO);
-
             observers.Clear();
+            if (!HighLogic.LoadedSceneIsFlight)
+                return 0;
             ScanInterface scanInterface = GetComponent<ScanInterface>();
 
             if (scanInterface == null)
                 Log.Error("ExperimentManager.RebuildObserverList: No ScanInterface component found"); // this is bad; things won't break if the scan interface
 
             // construct the experiment observer list ...
-            foreach (var expid in ResearchAndDevelopment.GetExperimentIDs())
+            for (int i = ResearchAndDevelopment.GetExperimentIDs().Count - 1; i >= 0; i--)
+            {
+                string expid = ResearchAndDevelopment.GetExperimentIDs()[i];
                 if (expid != "evaReport" && expid != "surfaceSample") // special cases
 
                     if (FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>().Any(mse => mse.experimentID == expid && !ExcludeFilters.IsExcluded(mse)))
                         observers.Add(new ExperimentObserver(vesselStorage, ProfileManager.ActiveProfile[expid], biomeFilter, scanInterface, expid));
-
+            }
             observers.Add(new SurfaceSampleObserver(vesselStorage, ProfileManager.ActiveProfile["surfaceSample"], biomeFilter, scanInterface));
 
             try
