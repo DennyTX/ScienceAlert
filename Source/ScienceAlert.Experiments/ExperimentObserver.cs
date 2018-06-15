@@ -23,16 +23,22 @@ namespace ScienceAlert.Experiments
         protected ScanInterface scanInterface; // Determines whether we're allowed to know if an experiment is available
         protected float nextReportValue; // take a guess
         protected bool requireControllable; // Vessel needs to be controllable for the experiment to be available
-
+        internal bool rerunnable = true; // Can the experiment be run again without having to reset it
+        internal bool resettable = true; // Whether an experiment can be reset - usually via the Part Action Window
         // events
         public ExperimentManager.ExperimentAvailableDelegate OnAvailable = delegate { };
 
         public ExperimentObserver(StorageCache cache, ExperimentSettings expSettings, BiomeFilter filter,
-            ScanInterface scanMapInterface, string expid)
+            ScanInterface scanMapInterface, string expid, ModuleScienceExperiment exp = null)
         {
             settings = expSettings;
             biomeFilter = filter;
             requireControllable = true;
+            if (exp != null)
+            {
+                rerunnable = exp.rerunnable;
+                resettable = exp.resettable;
+            }
 
             if (scanMapInterface == null)
                 scanMapInterface = new DefaultScanInterface();

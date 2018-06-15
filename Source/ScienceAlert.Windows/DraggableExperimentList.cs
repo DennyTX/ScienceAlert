@@ -106,16 +106,22 @@ namespace ScienceAlert.Windows
                         doAll = true;
                         noEva = true;
                     }
-                    
+
                     //-----------------------------------------------------
                     // Experiment list
                     //-----------------------------------------------------
 
+    
                     foreach (ExperimentObserver observer in observers)
                         if (observer.Available)
                         {
                             var content = new GUIContent(observer.ExperimentTitle);
+                            color = "";
+                            if (!observer.rerunnable) color = lblYellowColor;
+                            if (!observer.resettable) color = lblRedColor;
                             if (Settings.Instance.ShowReportValue) content.text += $" ({observer.NextReportValue:0.#})";
+                            if (color != "")
+                                content.text = Colorized(color, content.text);
                             if (!doAll && !GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false)))
                                 continue;
                             if (doAll && noEva && observer.Experiment.id == "evaReport")
@@ -130,7 +136,17 @@ namespace ScienceAlert.Windows
             }
             GUILayout.EndVertical();
         }
+        string lblGreenColor = "00ff00";
+        string lblDrkGreenColor = "ff9d00";
+        string lblBlueColor = "3DB1FF";
+        string lblYellowColor = "FFD966";
+        string lblRedColor = "f90000";
 
+        string color = "";
+        string Colorized(string color, string txt)
+        {
+            return string.Format("<color=#{0}>{1}</color>", color, txt);
+        }
         protected override void OnCloseClick()
         {
             Visible = false;

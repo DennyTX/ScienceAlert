@@ -199,10 +199,18 @@ namespace ScienceAlert.Experiments
             for (int i = ResearchAndDevelopment.GetExperimentIDs().Count - 1; i >= 0; i--)
             {
                 string expid = ResearchAndDevelopment.GetExperimentIDs()[i];
-                if (expid != "evaReport" && expid != "surfaceSample") // special cases
 
-                    if (FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>().Any(mse => mse.experimentID == expid && !ExcludeFilters.IsExcluded(mse)))
-                        observers.Add(new ExperimentObserver(vesselStorage, ProfileManager.ActiveProfile[expid], biomeFilter, scanInterface, expid));
+                if (expid != "evaReport" && expid != "surfaceSample") // special cases
+                {
+                    var m = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>().Where(mse => mse.experimentID == expid).ToList();
+                    if (m.Count > 0)
+                    {                       
+                        if (!ExcludeFilters.IsExcluded(m[0]))
+                        {
+                            observers.Add(new ExperimentObserver(vesselStorage, ProfileManager.ActiveProfile[expid], biomeFilter, scanInterface, expid, m[0]));
+                        }
+                    }
+                }
             }
             observers.Add(new SurfaceSampleObserver(vesselStorage, ProfileManager.ActiveProfile["surfaceSample"], biomeFilter, scanInterface));
 

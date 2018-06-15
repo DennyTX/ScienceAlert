@@ -20,3 +20,8 @@
 	Added support for ToolbarController
 	Added support for the ClickThrough Blocker
 	Removed old code used for the Blizzy Toolbar
+
+1.9.3
+	Added two colors to the buttons:
+		Yellow if the experiment needs to be reset before rerunning it
+		Red if the experiment cannot be reset
