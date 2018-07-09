@@ -1,3 +1,15 @@
+1.9.3
+	Thanks to github & forum user @jefftimlin for this fix:
+		The BiomeFilter class  attempted to generate a clean biome texture for the purposes of more accurate biome detection, 
+		however it's expensive and complicated. Completely removed all of the complex code from this class to avoid the threading
+		issue entirely, and just made it use the ScienceUtil.GetExperimentBiome function, which seems to work well. 
+		It makes the code faster, simpler, and safer.
+		Fixed an array index out of bounds problem in RequiresCrew.cs, which I found while debugging, which would intermittently 
+		produce errors in the logs.
+	Added Collect All button to collect all science into any/all containers
+
+
+
 1.9.2.3
 	Official release
 
