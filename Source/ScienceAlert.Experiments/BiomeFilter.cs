@@ -1,3 +1,4 @@
+using ReeperCommon;
 using UnityEngine;
 
 namespace ScienceAlert.Experiments
@@ -12,10 +13,18 @@ namespace ScienceAlert.Experiments
 
             string possibleBiome = string.Empty;
 
-            return GetBiome(FlightGlobals.ActiveVessel.latitude * Mathf.Deg2Rad, FlightGlobals.ActiveVessel.longitude * Mathf.Deg2Rad, out biome);
+            if (GetBiome(FlightGlobals.ActiveVessel.latitude, FlightGlobals.ActiveVessel.longitude, out possibleBiome))
+            {
+                biome = possibleBiome;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public bool GetBiome(double latRad, double lonRad, out string biome)
+        public bool GetBiome(double lat, double lon, out string biome)
         {
             biome = string.Empty;
             var vessel = FlightGlobals.ActiveVessel;
@@ -31,7 +40,8 @@ namespace ScienceAlert.Experiments
                 return true;
             }
 
-            biome = ScienceUtil.GetExperimentBiome(vessel.mainBody, latRad, lonRad);
+            biome = ScienceUtil.GetExperimentBiome(vessel.mainBody, lat, lon);
+
             return true;
         }
     }
