@@ -106,6 +106,23 @@ namespace ScienceAlert.Windows
                         doAll = true;
                         noEva = true;
                     }
+                    if (GUILayout.Button("Collect All", Settings.Skin.button))
+                    {
+                        var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
+                            
+                        foreach (var part in parts)
+                        {
+                            var m = part.Modules["ModuleScienceContainer"];
+                           
+                            if (m.Events["CollectAllEvent"].active)
+                            {
+                                //((ModuleScienceContainer)m).CollectAllEvent();
+
+                                ModuleScienceContainer msc = m as ModuleScienceContainer;
+                                msc.CollectAllEvent();
+                            }
+                        }
+                    }
 
                     //-----------------------------------------------------
                     // Experiment list
@@ -136,9 +153,9 @@ namespace ScienceAlert.Windows
             }
             GUILayout.EndVertical();
         }
-        string lblGreenColor = "00ff00";
-        string lblDrkGreenColor = "ff9d00";
-        string lblBlueColor = "3DB1FF";
+        //string lblGreenColor = "00ff00";
+        //string lblDrkGreenColor = "ff9d00";
+        //string lblBlueColor = "3DB1FF";
         string lblYellowColor = "FFD966";
         string lblRedColor = "f90000";
 

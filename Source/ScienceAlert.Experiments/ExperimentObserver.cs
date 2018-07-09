@@ -178,7 +178,7 @@ namespace ScienceAlert.Experiments
                         // biome matters; check to make sure we have biome data available
                         if (scanInterface.HaveScanData(vessel.latitude, vessel.longitude, vessel.mainBody))
                         {
-                            if (biomeFilter.GetBiome(vessel.latitude * Mathf.Deg2Rad, vessel.longitude * Mathf.Deg2Rad,
+                            if (biomeFilter.GetBiome(vessel.latitude, vessel.longitude,
                                 out biome))
                             {
                                 lastBiomeQuery = biome;

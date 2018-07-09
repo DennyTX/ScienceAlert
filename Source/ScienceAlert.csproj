@@ -116,10 +116,18 @@
   <PropertyGroup>
     <PostBuildEvent>"..\..\..\..\pdb2mdb.exe" "$(TargetPath)"
 
+
+
 start /D D:\Users\jbb\github\ScienceAlert /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
 
+
+
 if $(ConfigurationName) == Release (
+
+
 	start /D D:\Users\jbb\github\ScienceAlert /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+
+
 )
 </PostBuildEvent>
   </PropertyGroup>

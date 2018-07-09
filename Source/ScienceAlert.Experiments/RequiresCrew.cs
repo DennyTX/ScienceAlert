@@ -32,7 +32,7 @@ namespace ScienceAlert.Experiments
         {
             get
             {
-                for (int i = crewableParts.Count - 1; i >= 0; i++)
+                for (int i = crewableParts.Count - 1; i >= 0; i--)
                 {
                     if (crewableParts[i].protoModuleCrew.Count > 0)
                         return true;
