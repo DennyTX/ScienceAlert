@@ -10,6 +10,8 @@ namespace ScienceAlert
     public class StorageCache : MonoBehaviour
     {
         protected List<IScienceDataContainer> storage = new List<IScienceDataContainer>();
+        protected List<IScienceDataContainer> ret_storage = new List<IScienceDataContainer>();
+        protected List<Vessel> allVessels = FlightGlobals.Vessels;
         protected MagicDataTransmitter magicTransmitter;
         protected Vessel vessel;
 
@@ -158,18 +160,26 @@ namespace ScienceAlert
 
         public List<ScienceData> FindStoredData(string subjectid)
         {
-            List<ScienceData> list = new List<ScienceData>();
-            foreach (IScienceDataContainer current in storage)
+            //storage = Storage();
+            List<ScienceData> list = new List<ScienceData>();            
+            foreach (IScienceDataContainer current in Storage()) //changed to look into the new list which contains all vessels
             {
-                if (current.GetScienceCount() <= 0) continue;
-                ScienceData[] data = current.GetData();
-                for (int i = 0; i < data.Length; i++)
+                //if (current.GetScienceCount() <= 0) continue; //will always be true with Kerbalism installed
+                try
                 {
-                    ScienceData scienceData = data[i];
-                    if (scienceData.subjectID == subjectid)
+                    ScienceData[] data = current.GetData();
+                    for (int i = 0; i < data.Length; i++)
                     {
-                        list.Add(scienceData);
+                        ScienceData scienceData = data[i];
+                        if (scienceData.subjectID == subjectid)
+                        {
+                            list.Add(scienceData);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug("No science data", ex);
                 }
             }
             if (magicTransmitter == null) return list;
@@ -182,6 +192,20 @@ namespace ScienceAlert
                 Log.Debug("ALERT:Found stored data in transmitter queue");
             }
             return list;
+        }
+        
+        //Go through every Vessel and put their storage container into a list
+        public List<IScienceDataContainer> Storage()
+        {
+            ret_storage.Clear();
+            foreach (Vessel v in allVessels)
+            {  
+                    foreach (IScienceDataContainer container in v.FindPartModulesImplementing<IScienceDataContainer>())
+                    {
+                        ret_storage.Add(container);
+                    }
+            }
+            return ret_storage;
         }
     }
 }
