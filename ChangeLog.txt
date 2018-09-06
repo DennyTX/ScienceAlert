@@ -1,3 +1,10 @@
+1.9.4.1
+	Following from 4x4cheesecake:
+		Science Alert now works along Kerbalism
+		Stored experiments are detected in all loaded vessels
+	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
+
+
 1.9.4
 	Thanks to github & forum user @jefftimlin for this fix:
 		The BiomeFilter class  attempted to generate a clean biome texture for the purposes of more accurate biome detection, 
