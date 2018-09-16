@@ -25,7 +25,8 @@ namespace ScienceAlert.Experiments
             newReport = false;
 
             // Surface samples are not allowed until both astronaut complex and r&d facility reach level 1.
-            if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) == 0 || ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.ResearchAndDevelopment) == 0)
+            if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) == 0 || 
+                ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.ResearchAndDevelopment) == 0)
             {
                 Available = false;
                 lastAvailableId = "";

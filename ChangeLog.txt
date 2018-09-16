@@ -1,9 +1,13 @@
+1.9.4.2
+	Thanks to github user @dariasc for this:
+		Change SurfaceSampleObserver requirements: Changed to go inline with the current status.
+			https://wiki.kerbalspaceprogram.com/wiki/Research_and_Development#Levels
+
 1.9.4.1
 	Following from 4x4cheesecake:
 		Science Alert now works along Kerbalism
 		Stored experiments are detected in all loaded vessels
 	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
-
 
 1.9.4
 	Thanks to github & forum user @jefftimlin for this fix:
