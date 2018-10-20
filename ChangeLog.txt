@@ -1,3 +1,6 @@
+1.9.4.3
+	Version bump for 1.5 rebuild
+
 1.9.4.2
 	Thanks to github user @dariasc for this:
 		Change SurfaceSampleObserver requirements: Changed to go inline with the current status.
