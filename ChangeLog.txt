@@ -1,3 +1,7 @@
+
+1.9.4.x
+	Fixed download link in .version file
+
 1.9.4.3
 	Version bump for 1.5 rebuild
 
