@@ -1,6 +1,8 @@
 
-1.9.4.x
+1.9.4.4
 	Fixed download link in .version file
+	Moved ModuleManager configs into new folder called MM_Configs
+	Added contributed file from forum user @Gordon Dry to fix issues where biomeMask and situationMask are 0
 
 1.9.4.3
 	Version bump for 1.5 rebuild
