@@ -26,7 +26,7 @@ namespace ScienceAlert.Experiments
 
         string lastGoodBiome = string.Empty; // if BiomeFilter tells us the biome it got is probably not real, then we can use
 
-         AudioPlayer audio;
+        AudioPlayer audio;
 
         // --------------------------------------------------------------------
         //    Events
@@ -115,71 +115,73 @@ namespace ScienceAlert.Experiments
                 if (observers.Count == 0)
                 {
                     ScienceAlert.Instance.SetUnlit();
-                } else
-                for (int i = observers.Count - 1; i >= 0; i--)
-                {
-                    ExperimentObserver observer = observers[i];
-                    try
+                }
+                else
+                    for (int i = observers.Count - 1; i >= 0; i--)
+                    {
+                        ExperimentObserver observer = observers[i];
+                        try
                         {
 #if PROFILE
                     float start = Time.realtimeSinceStartup;
 #endif
-                        bool newReport = false;
+                            bool newReport = false;
 
-                        // Is exciting new research available?
-                        if (observer.UpdateStatus(expSituation, out newReport))
-                        {
-                            // if we're timewarping, resume normal time if that setting was used
-                            if (observer.StopWarpOnDiscovery || Settings.Instance.GlobalWarp == Settings.WarpSetting.GlobalOn)
-                                if (Settings.Instance.GlobalWarp != Settings.WarpSetting.GlobalOff)
-                                    if (TimeWarp.CurrentRateIndex > 0)
-                                    {
-                                        OrbitSnapshot snap = new OrbitSnapshot(FlightGlobals.ActiveVessel.GetOrbitDriver().orbit);
-                                        TimeWarp.SetRate(0, true);
-                                        FlightGlobals.ActiveVessel.GetOrbitDriver().orbit = snap.Load();
-                                        FlightGlobals.ActiveVessel.GetOrbitDriver().orbit.UpdateFromUT(Planetarium.GetUniversalTime());
-                                    }
+                            // Is exciting new research available?
+                            if (observer.UpdateStatus(expSituation, out newReport))
+                            {
+                                // if we're timewarping, resume normal time if that setting was used
+                                if (observer.StopWarpOnDiscovery || Settings.Instance.GlobalWarp == Settings.WarpSetting.GlobalOn)
+                                    if (Settings.Instance.GlobalWarp != Settings.WarpSetting.GlobalOff)
+                                        if (TimeWarp.CurrentRateIndex > 0)
+                                        {
+                                            //OrbitSnapshot snap = new OrbitSnapshot(FlightGlobals.ActiveVessel.GetOrbitDriver().orbit);
+                                            TimeWarp.fetch.CancelAutoWarp();
+                                            TimeWarp.SetRate(0, true);
+                                            //FlightGlobals.ActiveVessel.GetOrbitDriver().orbit = snap.Load();
+                                            //FlightGlobals.ActiveVessel.GetOrbitDriver().orbit.UpdateFromUT(Planetarium.GetUniversalTime());
+                                        }
 
 #if false
                             scienceAlert.Button.Important = true;
 #endif
 
-                            if (observer.settings.AnimationOnDiscovery)
-                                ScienceAlert.Instance.PlayAnimation();
-                            else ScienceAlert.Instance.SetLit(); //  if (scienceAlert.Button.IsNormal) scienceAlert.Button.SetLit();
+                                if (observer.settings.AnimationOnDiscovery)
+                                    ScienceAlert.Instance.PlayAnimation();
+                                else ScienceAlert.Instance.SetLit(); //  if (scienceAlert.Button.IsNormal) scienceAlert.Button.SetLit();
 
-                            switch (Settings.Instance.SoundNotification)
-                            {
-                                case Settings.SoundNotifySetting.ByExperiment:
-                                    if (observer.settings.SoundOnDiscovery)
+                                switch (Settings.Instance.SoundNotification)
+                                {
+                                    case Settings.SoundNotifySetting.ByExperiment:
+                                        if (observer.settings.SoundOnDiscovery)
+                                            audio.PlayUI("bubbles", 2f);
+                                        break;
+                                    case Settings.SoundNotifySetting.Always:
                                         audio.PlayUI("bubbles", 2f);
-                                    break;
-                                case Settings.SoundNotifySetting.Always:
-                                    audio.PlayUI("bubbles", 2f);
-                                    break;
+                                        break;
+                                }
+                                OnExperimentAvailable(observer.Experiment, observer.NextReportValue);
                             }
-                            OnExperimentAvailable(observer.Experiment, observer.NextReportValue);
-                        }
-                        else if (!observers.Any(ob => ob.Available))
-                        {
-                            ScienceAlert.Instance.SetUnlit();
+                            else if (!observers.Any(ob => ob.Available))
+                            {
+                                ScienceAlert.Instance.SetUnlit();
 #if false
                             scienceAlert.Button.Important = false;
 #endif
 
-                        }
+                            }
 #if PROFILE
                     Log.Warning("Tick time ({1}): {0} ms", (Time.realtimeSinceStartup - start) * 1000f, observer.ExperimentTitle);
 #endif
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug("ExperimentManager.UpdateObservers: exception {0}", e);
-                    }
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Debug("ExperimentManager.UpdateObservers: exception {0}", e);
+                        }
 
-                    if (TimeWarp.CurrentRate < Settings.Instance.TimeWarpCheckThreshold)
-                        yield return 0; // pause until next frame
-                } // end observer loop
+                        if (TimeWarp.CurrentRate < Settings.Instance.TimeWarpCheckThreshold)
+                            yield return 0; // pause until next frame
+                    } // end observer loop
                 yield return 0;
             } // end infinite while loop
         }
@@ -204,7 +206,7 @@ namespace ScienceAlert.Experiments
                 {
                     var m = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>().Where(mse => mse.experimentID == expid).ToList();
                     if (m.Count > 0)
-                    {                       
+                    {
                         if (!ExcludeFilters.IsExcluded(m[0]))
                         {
                             observers.Add(new ExperimentObserver(vesselStorage, ProfileManager.ActiveProfile[expid], biomeFilter, scanInterface, expid, m[0]));
@@ -242,9 +244,9 @@ namespace ScienceAlert.Experiments
             return observers.Count;
         }
 
-#endregion
+        #endregion
 
-#region Message handling functions
+        #region Message handling functions
 
         private void OnScanInterfaceChanged()
         {
@@ -256,7 +258,7 @@ namespace ScienceAlert.Experiments
             RebuildObserverList();
         }
 
-#endregion
+        #endregion
 
         public ReadOnlyCollection<ExperimentObserver> Observers => new ReadOnlyCollection<ExperimentObserver>(observers);
     }
