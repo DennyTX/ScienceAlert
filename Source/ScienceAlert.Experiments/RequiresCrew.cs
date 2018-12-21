@@ -22,7 +22,7 @@ namespace ScienceAlert.Experiments
 
             FlightGlobals.ActiveVessel.parts.ForEach(p =>
             {
-                if (p.CrewCapacity > 0) crewableParts.Add(p);
+               if (p.CrewCapacity > 0) crewableParts.Add(p);              
             });
 
         }
@@ -34,8 +34,16 @@ namespace ScienceAlert.Experiments
             {
                 for (int i = crewableParts.Count - 1; i >= 0; i--)
                 {
-                    if (crewableParts[i].protoModuleCrew.Count > 0)
-                        return true;
+                    //if (crewableParts[i].protoModuleCrew.Count > 0)
+                    //    return true;
+                    for (int i1 = crewableParts[i].protoModuleCrew.Count - 1; i1 >= 0; i1--)
+                    {
+                        if (crewableParts[i].protoModuleCrew[i1].type == ProtoCrewMember.KerbalType.Crew)
+                        {
+                            return true;
+                        }
+                    }
+
                 }
                 return false;
             }

@@ -59,9 +59,16 @@ namespace ScienceAlert.Experiments
         {
             List<ProtoCrewMember> crewChoices = new List<ProtoCrewMember>();
 
-            for (int i = crewableParts.Count - 1; i >= 0; i--)
-                crewChoices.AddRange(crewableParts[i].protoModuleCrew);
+            //crewChoices.AddRange(crewableParts[i].protoModuleCrew);
 
+            for (int i = crewableParts.Count - 1; i >= 0; i--)
+            {
+                for (int i1 = crewableParts[i].protoModuleCrew.Count - 1; i1 >= 0; i1--)
+                {
+                    if (crewableParts[i].protoModuleCrew[i1].type == ProtoCrewMember.KerbalType.Crew)
+                        crewChoices.Add(crewableParts[i].protoModuleCrew[i1]);
+                }
+            }
             if (crewChoices.Count == 0) return false;
             if (MapView.MapIsEnabled) MapView.ExitMapView();
 
