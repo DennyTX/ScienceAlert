@@ -116,7 +116,9 @@ namespace ScienceAlert.ProfileData
             ConfigNode.CreateConfigFromObject(this, 0, node);
             foreach (KeyValuePair<string, ExperimentSettings> current in settings)
             {
-                current.Value.OnSave(node.AddNode(new ConfigNode(current.Key)));
+                ConfigNode newNode = new ConfigNode(current.Key);
+                node.AddNode(newNode);
+                current.Value.OnSave(newNode);
             }
             Log.Debug("ALERT:Profile: OnSave config: {0}", node.ToString());
         }
@@ -153,6 +155,7 @@ namespace ScienceAlert.ProfileData
 
         public static Profile MakeDefault()
         {
+            Log.Info("MakeDefault");
             return new Profile("default");
         }
 

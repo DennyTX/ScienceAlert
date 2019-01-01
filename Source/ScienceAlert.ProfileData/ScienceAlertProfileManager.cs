@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ReeperCommon;
+using UnityEngine;
 
 namespace ScienceAlert.ProfileData
 {
@@ -124,8 +126,15 @@ namespace ScienceAlert.ProfileData
         private void OnVesselChange(Vessel vessel)
         {
             if (vessel == null) return;
-            if (!vesselProfiles.ContainsKey(vessel.id)) return;
-            if (vesselProfiles[vessel.id].modified) return;
+            StartCoroutine(WaitForLoad(vessel));
+        }
+        IEnumerator WaitForLoad(Vessel vessel)
+        {
+            while (!Ready)
+                yield return new WaitForSeconds(0.1f);
+
+            if (!vesselProfiles.ContainsKey(vessel.id)) yield break;
+            if (vesselProfiles[vessel.id].modified) yield break;
 
             var stored = FindStoredProfile(vesselProfiles[vessel.id].name);
             if (stored == null)
@@ -223,6 +232,17 @@ namespace ScienceAlert.ProfileData
                 Ready = true;
                 return;
             }
+            savedNode = node.CreateCopy();
+            StartCoroutine(WaitForFlightGlobals());
+        }
+        ConfigNode savedNode;
+
+        IEnumerator WaitForFlightGlobals()
+        {
+            while (!FlightGlobals.ready || (FlightGlobals.ActiveVessel == null))
+                yield return new WaitForSeconds(0.1f); 
+            ConfigNode node = savedNode;
+
             node = node.GetNode(PERSISTENT_NODE_NAME);
             vesselProfiles = new VesselTable();
             var guidStrings = node.nodes.DistinctNames();
@@ -232,7 +252,10 @@ namespace ScienceAlert.ProfileData
                 try
                 {
                     Guid guid = new Guid(strGuid);  // could throw an exception if string is malformed
-                    if (!FlightGlobals.Vessels.Any(v => v.id == guid)) continue;
+
+
+                    if (!FlightGlobals.fetch.vessels.Any(v => v.id == guid)) continue;
+
                     if (vesselProfiles.ContainsKey(guid)) continue;
 
                     ConfigNode profileNode = node.GetNode(strGuid);
@@ -242,9 +265,10 @@ namespace ScienceAlert.ProfileData
                         vesselProfiles.Add(guid, p);
                     else
                     {
-                        if (HaveStoredProfile(p.name))
+                        Profile storedProfile = FindStoredProfile(p.name);
+                        if (HaveStoredProfile(storedProfile))
                         {
-                            vesselProfiles.Add(guid, FindStoredProfile(p.name).Clone());
+                            vesselProfiles.Add(guid, storedProfile.Clone());
                         }
                         else
                         {
@@ -272,7 +296,11 @@ namespace ScienceAlert.ProfileData
                 try
                 {
                     if (FlightGlobals.Vessels.Any(v => v.id == kvp.Key))
-                        kvp.Value.OnSave(node.AddNode(new ConfigNode(kvp.Key.ToString())));
+                    {
+                        ConfigNode newNode = new ConfigNode(kvp.Key.ToString());
+                        node.AddNode(newNode);
+                        kvp.Value.OnSave(newNode);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -412,6 +440,11 @@ namespace ScienceAlert.ProfileData
         public static bool HaveStoredProfile(string name)
         {
             return FindStoredProfile(name) != null;
+        }
+
+        public static bool HaveStoredProfile(Profile p)
+        {
+            return p != null;
         }
 
         private string FindVesselName(Guid guid)
