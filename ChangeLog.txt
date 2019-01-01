@@ -1,5 +1,6 @@
 1.9.5.2
-	Fixed saving of profiles (not loading)
+	Fixed saving of profiles
+    Fixed loading of profiles
 	Some optimizations by reducing duplicate calls
 	Following due to changes in KSP
 		Changed the OnLoad in the ScienceAlertProfileManager to calling a CoRoutine so it can wait until the scene is ready
