@@ -135,7 +135,7 @@ namespace ScienceAlert
         private void RemoveMagicTransmitter(bool rootOnly = true)
         {
             magicTransmitter = null;
-            if (vessel == null || vessel.rootPart == null) return;
+            if (vessel == null || vessel.rootPart == null || vessel.rootPart.Modules == null || vessel.Parts == null) return;
             try
             {
                 if (vessel.rootPart.Modules.Contains("MagicDataTransmitter"))

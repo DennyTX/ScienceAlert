@@ -377,6 +377,7 @@ namespace ScienceAlert.Windows
         private void DrawProfileList()
         {
             profileScrollPos = GUILayout.BeginScrollView(profileScrollPos, Settings.Skin.scrollView);
+            bool profilesExist = false;
             if (ScienceAlertProfileManager.Count > 0)
             {
                 GUILayout.Label("Select a profile to load");
@@ -384,6 +385,18 @@ namespace ScienceAlert.Windows
                 GUILayout.Space(4f);
                 Dictionary<string, Profile> profiles = ScienceAlertProfileManager.Profiles;
                 DrawProfileList_ListItem(ScienceAlertProfileManager.DefaultProfile);
+              
+                foreach (var current in profiles.Values)
+                {
+                    if (current != ScienceAlertProfileManager.DefaultProfile)
+                    {
+                        DrawProfileList_ListItem(current);
+                        profilesExist = true;
+                    }
+                }
+
+// Uuugh   ungly GOTO, must get rid of it
+#if false
                 using (Dictionary<string, Profile>.ValueCollection.Enumerator enumerator = profiles.Values.GetEnumerator())
                 {
                     while (enumerator.MoveNext())
@@ -396,11 +409,15 @@ namespace ScienceAlert.Windows
                     }
                     goto IL_F1;
                 }
+#endif
             }
-            GUILayout.FlexibleSpace();
-            GUILayout.Box("No profiles saved", GUILayout.MinHeight(64f));
-            GUILayout.FlexibleSpace();
-            IL_F1:
+            if (!profilesExist)
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Box("No profiles saved", GUILayout.MinHeight(64f));
+                GUILayout.FlexibleSpace();
+            }
+//IL_F1:
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
