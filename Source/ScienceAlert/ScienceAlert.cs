@@ -199,7 +199,9 @@ namespace ScienceAlert
         void ButtonLeftClicked()
         {
             WindowEventLogic.experimentList.Visible = !WindowEventLogic.experimentList.Visible;
+            DraggableExperimentList.Instance.CheckForCollection();
         }
+
         void ButtonRightClicked()
         {
             WindowEventLogic.optionsWindow.Visible = !WindowEventLogic.optionsWindow.Visible;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using ReeperCommon;
 using ScienceAlert.Experiments;
@@ -8,6 +9,7 @@ namespace ScienceAlert.Windows
 {
     class DraggableExperimentList : DraggableWindow
     {
+        internal static DraggableExperimentList Instance;
         private const string WindowTitle = "Available Experiments";
 
         public ExperimentManager manager;
@@ -18,6 +20,7 @@ namespace ScienceAlert.Windows
 
         protected override Rect Setup()
         {
+            Instance = this;
             Title = "Available Experiments";
             ShrinkHeightToFit = true;
             Skin = Instantiate(Settings.Skin); // we'll be altering it a little bit to make sure the buttons are the right size
@@ -80,6 +83,50 @@ namespace ScienceAlert.Windows
             base.OnGUI();
         }
 
+        internal List<ModuleScienceContainer> msc;
+
+        internal void CheckForCollection()
+        {
+            msc = new List<ModuleScienceContainer>();
+            {
+                var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
+
+                for (int i = parts.Count - 1; i > 0; i--)
+                {
+                    Part part = parts[i];
+                    if (part.Modules["ModuleScienceContainer"].Events["CollectAllEvent"].guiActive)
+                    {
+                        var m = part.Modules["ModuleScienceContainer"] as ModuleScienceContainer;
+                        msc.Add(m);
+                    }
+                }
+            }
+        }
+
+        public int GetActiveVesselDataCount()
+        {
+            int dataCnt = 0;
+            if (FlightGlobals.ActiveVessel != null)
+            {
+                Vessel activeVessel = FlightGlobals.ActiveVessel;
+                int pCount = activeVessel.parts.Count;
+                while (pCount-- > 0)
+                {
+                    Part part = activeVessel.parts[pCount];
+                    int mCount = part.Modules.Count;
+                    while (mCount-- > 0)
+                    {
+                        IScienceDataContainer scienceDataContainer = part.Modules[mCount] as IScienceDataContainer;
+                        if (scienceDataContainer != null)
+                        {
+                            dataCnt += scienceDataContainer.GetScienceCount();
+                        }
+                    }
+                }
+            }
+            return dataCnt;
+        }
+
         bool doAll = false;
         bool noEva = false;
         protected override void DrawUI()
@@ -106,24 +153,28 @@ namespace ScienceAlert.Windows
                         doAll = true;
                         noEva = true;
                     }
-                    if (GUILayout.Button("Collect All", Settings.Skin.button))
-                    {
-                        var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
-                            
-                        foreach (var part in parts)
-                        {
-                            var m = part.Modules["ModuleScienceContainer"];
-                           
-                            if (m.Events["CollectAllEvent"].active)
-                            {
-                                //((ModuleScienceContainer)m).CollectAllEvent();
 
-                                ModuleScienceContainer msc = m as ModuleScienceContainer;
-                                msc.CollectAllEvent();
+                    if (GetActiveVesselDataCount() > 0)
+                    {
+
+                        if (msc != null && msc.Count > 0)
+                        {
+
+                            if (GUILayout.Button("Collect All", Settings.Skin.button))
+                            {
+                                foreach (var m in msc)
+                                {
+                                    m.CollectAllEvent();
+                                }
                             }
                         }
+                        else
+                        {
+                            GUI.enabled = false;
+                            GUILayout.Button("Collect All (no science containers available)");
+                            GUI.enabled = true;
+                        }
                     }
-
                     //-----------------------------------------------------
                     // Experiment list
                     //-----------------------------------------------------

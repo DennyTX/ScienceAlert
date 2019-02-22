@@ -130,6 +130,8 @@ namespace ScienceAlert
                 IsBusy = false;
                 Log.Debug("ALERT:Rebuilt StorageCache");
             }
+            if (Windows.DraggableExperimentList.Instance != null)
+                Windows.DraggableExperimentList.Instance.CheckForCollection();
         }
 
         private void RemoveMagicTransmitter(bool rootOnly = true)
