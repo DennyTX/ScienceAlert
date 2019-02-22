@@ -1,3 +1,8 @@
+1.9.6
+	Fixed the Collect All so it now works with science containers which have a gui available in the PAW
+	Added check so that if no science containers are available, the button will be greyed out
+	Now doesn't show the Collect All if no data is available to be collected
+
 1.9.5.4
 	Replaced ugly GOTO code
 	Added more checks for null in StorageCache.cs in RemoveMagicTransmitter()""
@@ -75,13 +80,3 @@
 	Added support for ToolbarController
 	Added support for the ClickThrough Blocker
 	Removed old code used for the Blizzy Toolbar
-
-1.9.3
-	Added two colors to the buttons:
-		Yellow if the experiment needs to be reset before rerunning it
-		Red if the experiment cannot be reset
-
-1.9.6
-	Fixed the Collect All so it now works with science containers which have a gui available in the PAW
-	Added check so that if no science containers are available, the button will be greyed out
-	Now doesn't show the Collect All if no data is available to be collected
