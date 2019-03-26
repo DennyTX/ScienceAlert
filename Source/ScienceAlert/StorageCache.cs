@@ -117,7 +117,7 @@ namespace ScienceAlert
                     }
                     else
                     {
-                        magicTransmitter = vessel.rootPart.AddModule("MagicDataTransmitter") as MagicDataTransmitter;
+                       // magicTransmitter = vessel.rootPart.AddModule("MagicDataTransmitter") as MagicDataTransmitter;
                         if (magicTransmitter != null)
                             magicTransmitter.cacheOwner = this;
                     }

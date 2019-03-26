@@ -30,14 +30,12 @@ namespace ScienceAlert
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class ScienceAlert : MonoBehaviour
     {
-        //private IToolbar button;
         internal ToolbarControl toolbarControl;
         private ScanInterface scanInterface;
         public DraggableOptionsWindow optionsWindow;
         public static ScienceAlert Instance;
         internal ExcludeFilters excludeFilters;
-
-        //private Settings.ToolbarInterface buttonInterfaceType;
+        
         private Settings.ScanInterface scanInterfaceType;
         public event Callback OnScanInterfaceChanged = delegate { };
         public event Callback OnToolbarButtonChanged = delegate { };
@@ -58,7 +56,7 @@ namespace ScienceAlert
 
                 toolbarControl = gameObject.AddComponent<ToolbarControl>();
                 toolbarControl.AddToAllToolbars(ButtonLeftClicked, ButtonLeftClicked,
-                    ApplicationLauncher.AppScenes.FLIGHT,
+                    ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
                     "saButton",
                     NormalFlaskTexture,

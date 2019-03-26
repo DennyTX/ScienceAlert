@@ -202,6 +202,7 @@ namespace ScienceAlert.Windows
 
                 }
             }
+
             GUILayout.EndVertical();
         }
         //string lblGreenColor = "00ff00";
