@@ -103,26 +103,24 @@ namespace ScienceAlert.Windows
             }
         }
 
-        public int GetActiveVesselDataCount()
+
+
+        public int AnyAvailableScienceContainers()
         {
             int dataCnt = 0;
             if (FlightGlobals.ActiveVessel != null)
             {
                 Vessel activeVessel = FlightGlobals.ActiveVessel;
-                int pCount = activeVessel.parts.Count;
-                while (pCount-- > 0)
+
+                var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
+
+                for (int i = parts.Count - 1; i > 0; i--)
                 {
-                    Part part = activeVessel.parts[pCount];
-                    int mCount = part.Modules.Count;
-                    while (mCount-- > 0)
-                    {
-                        IScienceDataContainer scienceDataContainer = part.Modules[mCount] as IScienceDataContainer;
-                        if (scienceDataContainer != null)
-                        {
-                            dataCnt += scienceDataContainer.GetScienceCount();
-                        }
-                    }
+                    var m = parts[i].Modules["ModuleScienceContainer"] as ModuleScienceContainer;
+                    if (m.capacity == 0 || m.GetStoredDataCount() < m.capacity)
+                        return 1;
                 }
+                return 0;
             }
             return dataCnt;
         }
@@ -153,54 +151,53 @@ namespace ScienceAlert.Windows
                         doAll = true;
                         noEva = true;
                     }
-
-                    if (GetActiveVesselDataCount() > 0)
+                }
+                if (AnyAvailableScienceContainers() > 0)
+                {
+                    if (msc != null && msc.Count > 0)
                     {
 
-                        if (msc != null && msc.Count > 0)
+                        if (GUILayout.Button("Collect All", Settings.Skin.button))
                         {
-
-                            if (GUILayout.Button("Collect All", Settings.Skin.button))
+                            foreach (var m in msc)
                             {
-                                foreach (var m in msc)
-                                {
-                                    m.CollectAllEvent();
-                                }
+                                m.CollectAllEvent();
                             }
                         }
-                        else
-                        {
-                            GUI.enabled = false;
-                            GUILayout.Button("Collect All (no science containers available)");
-                            GUI.enabled = true;
-                        }
                     }
-                    //-----------------------------------------------------
-                    // Experiment list
-                    //-----------------------------------------------------
-
-    
-                    foreach (ExperimentObserver observer in observers)
-                        if (observer.Available)
-                        {
-                            var content = new GUIContent(observer.ExperimentTitle);
-                            color = "";
-                            if (!observer.rerunnable) color = lblYellowColor;
-                            if (!observer.resettable) color = lblRedColor;
-                            if (Settings.Instance.ShowReportValue) content.text += $" ({observer.NextReportValue:0.#})";
-                            if (color != "")
-                                content.text = Colorized(color, content.text);
-                            if (!doAll && !GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false)))
-                                continue;
-                            if (doAll && noEva && observer.Experiment.id == "evaReport")
-                                continue;
-
-                            Log.Debug("Deploying {0}", observer.ExperimentTitle);
-                            AudioPlayer.Audio.PlayUI("click2");
-                            observer.Deploy();
-                        }
-
+                    else
+                    {
+                        GUI.enabled = false;
+                        GUILayout.Button("Collect All (no science containers available)");
+                        GUI.enabled = true;
+                    }
                 }
+
+                //-----------------------------------------------------
+                // Experiment list
+                //-----------------------------------------------------
+
+                for (int i = observers.Count() - 1; i >= 0; i--)
+                {
+                    if (observers[i].Available)
+                    {
+                        var content = new GUIContent(observers[i].ExperimentTitle);
+                        color = "";
+                        if (!observers[i].rerunnable) color = lblYellowColor;
+                        if (!observers[i].resettable) color = lblRedColor;
+                        if (Settings.Instance.ShowReportValue) content.text += $" ({observers[i].NextReportValue:0.#})";
+                        if (color != "")
+                            content.text = Colorized(color, content.text);
+                        if (!doAll && !GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false)))
+                            continue;
+                        if (doAll && noEva && observers[i].Experiment.id == "evaReport")
+                            continue;
+
+                        Log.Debug("Deploying {0}", observers[i].ExperimentTitle);
+                        AudioPlayer.Audio.PlayUI("click2");
+                        observers[i].Deploy();
+                    }
+                }            
             }
 
             GUILayout.EndVertical();
