@@ -1,3 +1,7 @@
+1.9.7 (unreleased)
+	Added Install Checker
+	Updated AssemblyVersion
+
 1.9.6.2
 	Fixed Collect All button to be visible whenever any science container has spare capacity
 		(note that most science containers seem to have unlimited capacity)
