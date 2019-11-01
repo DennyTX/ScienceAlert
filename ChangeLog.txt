@@ -1,4 +1,9 @@
-1.9.7 (unreleased)
+ChangeLog
+
+1.9.7.1
+	Fixed "Deploy All" allowing an eva when eva's aren't allowed
+
+1.9.7
 	Added Install Checker
 	Updated AssemblyVersion
 

@@ -129,6 +129,8 @@ namespace ScienceAlert.Windows
         bool noEva = false;
         protected override void DrawUI()
         {
+            var expSituation = ScienceUtil.GetExperimentSituation(FlightGlobals.ActiveVessel);
+
             GUILayout.BeginVertical();
             {
                 var observers = manager.Observers;
@@ -142,14 +144,17 @@ namespace ScienceAlert.Windows
                     doAll = false;
                     if (GUILayout.Button("Deploy All", Settings.Skin.button))
                     {
-                        doAll = true;
+                        doAll = true;                        
                         noEva = false;
                     }
 
-                    if (GUILayout.Button("Deploy All except EVA", Settings.Skin.button, GUILayout.Height(35)))
+                    if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) > 0 || expSituation == ExperimentSituations.SrfLanded)
                     {
-                        doAll = true;
-                        noEva = true;
+                        if (GUILayout.Button("Deploy All except EVA", Settings.Skin.button, GUILayout.Height(35)))
+                        {
+                            doAll = true;
+                            noEva = true;
+                        }
                     }
                 }
                 if (AnyAvailableScienceContainers() > 0)
@@ -172,7 +177,10 @@ namespace ScienceAlert.Windows
                         GUI.enabled = true;
                     }
                 }
-
+                
+                if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) == 0 && (expSituation != ExperimentSituations.SrfLanded ||
+                    !FlightGlobals.ActiveVessel.mainBody.isHomeWorld)   )
+                    noEva = true;
                 //-----------------------------------------------------
                 // Experiment list
                 //-----------------------------------------------------
@@ -182,15 +190,17 @@ namespace ScienceAlert.Windows
                     if (observers[i].Available)
                     {
                         var content = new GUIContent(observers[i].ExperimentTitle);
+                        Log.Info("available: " + observers[i].ExperimentTitle);
                         color = "";
                         if (!observers[i].rerunnable) color = lblYellowColor;
                         if (!observers[i].resettable) color = lblRedColor;
                         if (Settings.Instance.ShowReportValue) content.text += $" ({observers[i].NextReportValue:0.#})";
                         if (color != "")
                             content.text = Colorized(color, content.text);
-                        if (!doAll && !GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false)))
+
+                        if (noEva && observers[i].Experiment.id == "evaReport")
                             continue;
-                        if (doAll && noEva && observers[i].Experiment.id == "evaReport")
+                        if (!doAll && !GUILayout.Button(content, Settings.Skin.button, GUILayout.ExpandHeight(false)))
                             continue;
 
                         Log.Debug("Deploying {0}", observers[i].ExperimentTitle);

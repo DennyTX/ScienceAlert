@@ -254,7 +254,7 @@ namespace ScienceAlert
         /// </summary>
         public void SetUnlit()
         {
-            Log.Write("SetUnlit", Log.LEVEL.INFO);
+            //Log.Write("SetUnlit", Log.LEVEL.INFO);
             animation = null;
             TexturePath = NormalFlaskTexture;
             toolbarControl.SetTexture(NormalFlaskTexture + "-38", NormalFlaskTexture);
@@ -262,7 +262,7 @@ namespace ScienceAlert
 
         public void SetLit()
         {
-            Log.Write("SetLit", Log.LEVEL.INFO);
+            //Log.Write("SetLit", Log.LEVEL.INFO);
             animation = null;
             TexturePath = StarFlaskTextures[0];
             toolbarControl.SetTexture(StarFlaskTextures38[0], StarFlaskTextures[0]);
