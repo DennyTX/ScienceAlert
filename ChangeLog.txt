@@ -1,5 +1,15 @@
 ChangeLog
 
+1.9.8.1
+	Thanks to @Gordon_Dry for this:
+		Simplification of  zzz_fix_biomeMask_situationMask_0.cfg
+		Sanity fix for RP-0 (RP-1)
+		Update zzz_fix_biomeMask_situationMask_0.cfg
+
+	    See
+			https://forum.kerbalspaceprogram.com/index.php?/topic/175772-15-*
+	    and following posts. A simplification of the patch.
+
 1.9.8
 	Updated for KSP 1.8
 
