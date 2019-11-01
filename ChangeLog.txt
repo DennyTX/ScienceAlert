@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.8
+	Updated for KSP 1.8
+
 1.9.7.1
 	Fixed "Deploy All" allowing an eva when eva's aren't allowed
 
