@@ -1,5 +1,11 @@
 ChangeLog
 
+1.9.8.2
+	Replaced embedded resource images with files
+	Removed 120 lines related to embedded resource images
+	Found a static GUISkin which was causing the options window to be double width
+	Commented out a line in Settings which was setting the background to null
+
 1.9.8.1
 	Thanks to @Gordon_Dry for this:
 		Simplification of  zzz_fix_biomeMask_situationMask_0.cfg

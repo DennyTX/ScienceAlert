@@ -43,7 +43,7 @@ namespace ScienceAlert
         internal const string MODID = "ScienceAlert_NS";
         internal const string MODNAME = "Science Alert";
 
-        private const string NormalFlaskTexture = "ScienceAlert/textures/flask";
+        private const string NormalFlaskTexture = "ScienceAlert/PluginData/Textures/flask";
         private int FrameCount = 100;
         private List<string> StarFlaskTextures = new List<string>();
         private List<string> StarFlaskTextures38 = new List<string>();
@@ -85,7 +85,7 @@ namespace ScienceAlert
                     // load normal flask texture
                     Log.Debug("Loading normal flask texture");
 
-                    Texture2D nflask = ResourceUtil.GetEmbeddedTexture("Textures.flask.png", true);
+                    Texture2D nflask = ResourceUtil.LoadImage("flask.png");
                     if (nflask == null)
                     {
                         Log.Error("Failed to create normal flask texture!");
@@ -97,7 +97,8 @@ namespace ScienceAlert
                         GameDatabase.Instance.databaseTexture.Add(ti);
                        // Log.Debug("Created normal flask texture {0}", ti.name);
                     }
-                    nflask = ResourceUtil.GetEmbeddedTexture("Textures.flask-38.png", true);
+#if false
+                    nflask = ResourceUtil.LoadImage("flask-38.png");
                     if (nflask == null)
                     {
                         Log.Error("Failed to create normal flask-38 texture!");
@@ -109,10 +110,11 @@ namespace ScienceAlert
                         GameDatabase.Instance.databaseTexture.Add(ti);
                        // Log.Debug("Created normal flask texture {0}", ti.name);
                     }
+#endif
                     //
                     // Load textures for animation here
                     //
-                    Texture2D sheet = ResourceUtil.GetEmbeddedTexture("Textures.sheet.png");
+                    Texture2D sheet = ResourceUtil.LoadImage("sheet.png");
                     if (sheet == null)
                     {
                         Log.Error("Failed to create sprite sheet texture!");
@@ -145,7 +147,7 @@ namespace ScienceAlert
                         RenderTexture.ReleaseTemporary(rt);
                     }
 
-                    sheet = ResourceUtil.GetEmbeddedTexture("Textures.sheet-38.png");
+                    sheet = ResourceUtil.LoadImage("sheet-38.png");
                     if (sheet == null)
                     {
                         Log.Error("Failed to create sprite sheet texture!");

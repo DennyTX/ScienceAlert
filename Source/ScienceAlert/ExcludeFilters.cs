@@ -18,7 +18,6 @@ namespace ScienceAlert
         {
             bool b1 = excludedManufacturers.Contains(exp.part.partInfo.manufacturer);
             bool b2 = excludedExperiments.Contains(exp.experimentID);
-            Log.Info("Checking: " + exp.experimentID);
             return b1 | b2;
         }
 
@@ -42,9 +41,10 @@ namespace ScienceAlert
 
                 excludedExperiments = expList.Distinct().ToArray();
 
+#if DEBUG
                 foreach (var s in excludedExperiments)
                     Log.Info("Excluded experiment: " + s);
-
+#endif
             }
 
             if (excludedManufacturers == null)
@@ -63,9 +63,10 @@ namespace ScienceAlert
                     Log.Error("Missing config file");
 
                 excludedManufacturers = expList.Distinct().ToArray();
-
+#if DEBUG
                 foreach (var s in excludedManufacturers)
                     Log.Info("Excluded manufacturer: " + s);
+#endif
             }
 
         }

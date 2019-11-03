@@ -31,13 +31,13 @@
     <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\Assembly*.dll">
-	   <Private>False</Private>
+    <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\Assembly*.dll">
+      <Private>False</Private>
     </Reference>
     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\UnityEngine*.dll">
-	   <Private>False</Private>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="System" />	
+    <Reference Include="System" />
     <Reference Include="ClickThroughBlocker">
       <HintPath>$(KSPDIR)\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
     </Reference>
@@ -84,21 +84,6 @@
     <Compile Include="ScienceAlert.ProfileData\ScienceAlertProfileManager.cs" />
     <Compile Include="ScienceAlert\Settings.cs" />
     <Compile Include="ScienceAlert\StorageCache.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Textures\btnBackground.png" />
-    <EmbeddedResource Include="Textures\btnClose.png" />
-    <EmbeddedResource Include="Textures\btnDelete.png" />
-    <EmbeddedResource Include="Textures\btnExpand.png" />
-    <EmbeddedResource Include="Textures\btnLock.png" />
-    <EmbeddedResource Include="Textures\btnOpen.png" />
-    <EmbeddedResource Include="Textures\btnRename.png" />
-    <EmbeddedResource Include="Textures\btnSave.png" />
-    <EmbeddedResource Include="Textures\btnUnlock.png" />
-    <EmbeddedResource Include="Textures\flask.png" />
-    <EmbeddedResource Include="Textures\sheet.png" />
-    <EmbeddedResource Include="Textures\flask-38.png" />
-    <EmbeddedResource Include="Textures\sheet-38.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AssemblyVersion.tt">

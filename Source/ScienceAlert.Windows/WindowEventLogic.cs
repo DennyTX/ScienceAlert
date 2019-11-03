@@ -21,10 +21,10 @@ namespace ScienceAlert.Windows
         {
             Log.Normal("Customizing DraggableWindow");
 
-            DraggableWindow.CloseTexture = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnClose.png");
-            DraggableWindow.LockTexture = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnLock.png");
-            DraggableWindow.UnlockTexture = ResourceUtil.LocateTexture("ScienceAlert.Resources.btnUnlock.png");
-            DraggableWindow.ButtonHoverBackground =  ResourceUtil.LocateTexture("ScienceAlert.Resources.btnBackground.png");
+            DraggableWindow.CloseTexture = ResourceUtil.LoadImage("btnClose.png");
+            DraggableWindow.LockTexture = ResourceUtil.LoadImage("btnLock.png");
+            DraggableWindow.UnlockTexture = ResourceUtil.LoadImage("btnUnlock.png");
+            DraggableWindow.ButtonHoverBackground =  ResourceUtil.LoadImage("btnBackground.png");
 
             DraggableWindow.ButtonSound = "click1";
 
@@ -33,6 +33,7 @@ namespace ScienceAlert.Windows
             optionsWindow = new GameObject("ScienceAlert.OptionsWindow").AddComponent<DraggableOptionsWindow>();
             optionsWindow.scienceAlert = GetComponent<ScienceAlert>();
             optionsWindow.manager = GetComponent<ExperimentManager>();
+
             experimentList = new GameObject("ScienceAlert.ExperimentList").AddComponent<DraggableExperimentList>();
             experimentList.biomeFilter = GetComponent<BiomeFilter>();
             experimentList.manager = GetComponent<ExperimentManager>();

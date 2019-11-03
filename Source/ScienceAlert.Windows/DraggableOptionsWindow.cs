@@ -61,11 +61,11 @@ namespace ScienceAlert.Windows
             filterList.Add(new GUIContent("< 50% collected"));
             filterList.Add(new GUIContent("< 90% collected"));
 
-            openButton = ResourceUtil.GetEmbeddedTexture("Textures.btnOpen.png");
-            deleteButton = ResourceUtil.GetEmbeddedTexture("Textures.btnDelete.png");
-            renameButton = ResourceUtil.GetEmbeddedTexture("Textures.btnRename.png");
-            saveButton = ResourceUtil.GetEmbeddedTexture("Textures.btnSave.png");
-            expandButton = ResourceUtil.GetEmbeddedTexture("Textures.btnExpand.png");
+            openButton = ResourceUtil.LoadImage("btnOpen.png");
+            deleteButton = ResourceUtil.LoadImage("btnDelete.png");
+            renameButton = ResourceUtil.LoadImage("btnRename.png");
+            saveButton = ResourceUtil.LoadImage("btnSave.png");
+            expandButton = ResourceUtil.LoadImage("btnExpand.png");
             collapseButton = Instantiate(expandButton);
             ResourceUtil.FlipTexture(collapseButton, true, true);
             collapseButton.Compress(false);

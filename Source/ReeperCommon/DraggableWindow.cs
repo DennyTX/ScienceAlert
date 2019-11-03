@@ -10,7 +10,7 @@ namespace ReeperCommon
     {
         protected Rect windowRect = default(Rect);
         protected Rect lastRect = default(Rect);
-        private GUISkin skin;
+        /* static */ private GUISkin skin = null;
         private int winId = Random.Range(2444, 2147483647);
         private static Vector2 offset = new Vector2(4f, 4f);
         private static GUIStyle buttonStyle;
@@ -18,11 +18,11 @@ namespace ReeperCommon
         private bool visible = true;
         private static Texture2D hoverBackground;
         private static GUISkin defaultSkin;
-        public event WindowDelegate OnVisibilityChange = delegate{};
+        public event WindowDelegate OnVisibilityChange = delegate { };
 
-        public event WindowDelegate OnDraggabilityChange = delegate{};
+        public event WindowDelegate OnDraggabilityChange = delegate { };
 
-        public event WindowClosedDelegate OnClosed = delegate{};
+        public event WindowClosedDelegate OnClosed = delegate { };
 
         public bool Draggable
         {
@@ -59,6 +59,7 @@ namespace ReeperCommon
                     OnVisibilityChange(value);
                 }
                 visible = value;
+                
                 if (gameObject.activeInHierarchy != visible && !visible)
                 {
                     OnClosed();
@@ -96,7 +97,7 @@ namespace ReeperCommon
                 skin = value ?? DefaultSkin;
             }
         }
-
+#if false
         public Rect WindowRect
         {
             get
@@ -104,7 +105,7 @@ namespace ReeperCommon
                 return lastRect;
             }
         }
-
+#endif
         public bool ClampToScreen
         {
             get;
@@ -229,6 +230,7 @@ namespace ReeperCommon
         private void _InternalDraw(int winid)
         {
             DrawUI();
+#if true
             lastRect.x = windowRect.x;
             lastRect.y = windowRect.y;
             GUILayout.BeginArea(new Rect(0f, offset.y, lastRect.width, lastRect.height));
@@ -262,7 +264,8 @@ namespace ReeperCommon
             GUILayout.Space(offset.x);
             GUILayout.EndHorizontal();
             GUILayout.EndArea();
-            if (Draggable)
+ #endif
+           if (Draggable)
             {
                 GUI.DragWindow();
             }

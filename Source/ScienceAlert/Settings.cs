@@ -32,11 +32,13 @@ namespace ScienceAlert
             ScanSat
         }
 
+#if false
         public enum ToolbarInterface
         {
             //ApplicationLauncher,
             BlizzyToolbar
         }
+#endif
 
         private static Settings instance;
 
@@ -107,13 +109,16 @@ namespace ScienceAlert
             {
                 Texture2D background = skin.window.normal.background;
                 windowOpacity = value;
-                Color32[] pixels = background.GetPixels32();
-                for (int i = 0; i < pixels.Length; i++)
+                if (background != null)
                 {
-                    pixels[i].a = (byte)Mathf.Clamp(windowOpacity, 0, 255);
+                    Color32[] pixels = background.GetPixels32();
+                    for (int i = 0; i < pixels.Length; i++)
+                    {
+                        pixels[i].a = (byte)Mathf.Clamp(windowOpacity, 0, 255);
+                    }
+                    background.SetPixels32(pixels);
+                    background.Apply();
                 }
-                background.SetPixels32(pixels);
-                background.Apply();
             }
         }
 
@@ -176,7 +181,10 @@ namespace ScienceAlert
             skin.box.contentOffset = new Vector2(0f, 0f);
             skin.horizontalSlider.margin = new RectOffset();
             skin.window = new GUIStyle(skin.GetStyle("window"));
-            skin.window.onActive.background = skin.window.onFocused.background = skin.window.onNormal.background = skin.window.onHover.background = skin.window.active.background = skin.window.focused.background = skin.window.hover.background = skin.window.normal.background = skin.window.normal.background.CreateReadable();
+
+            // Following was causing setfaults in KSP 1.8, when changing the WindowOpacity on the 2nd time in flight scene
+            //skin.window.onActive.background = skin.window.onFocused.background = skin.window.onNormal.background = skin.window.onHover.background = skin.window.active.background = skin.window.focused.background = skin.window.hover.background = skin.window.normal.background = skin.window.normal.background.CreateReadable();
+
             WindowOpacity = 255;
             skin.window.onNormal.textColor = skin.window.normal.textColor = XKCDColors.Green_Yellow;
             skin.window.onHover.textColor = skin.window.hover.textColor = XKCDColors.YellowishOrange;
@@ -196,7 +204,6 @@ namespace ScienceAlert
             DraggableWindow.DefaultSkin = skin;
             Load();
         }
-
 
         public void Load()
         {

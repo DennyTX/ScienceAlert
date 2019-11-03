@@ -17,13 +17,16 @@ namespace ScienceAlert.Windows
         public ScanInterface scanInterface;
 
         private bool adjustedSkin;
-
+        
         protected override Rect Setup()
         {
             Instance = this;
             Title = "Available Experiments";
             ShrinkHeightToFit = true;
             Skin = Instantiate(Settings.Skin); // we'll be altering it a little bit to make sure the buttons are the right size
+
+            //Skin = Object.Instantiate(HighLogic.Skin);
+
             Settings.Instance.OnSave += AboutToSave;
             LoadFrom(Settings.Instance.additional.GetNode("ExperimentWindow") ?? new ConfigNode());
             return new Rect(windowRect.x, windowRect.y, 256f, 128f);
@@ -70,7 +73,8 @@ namespace ScienceAlert.Windows
             {
                 Skin.window.stretchHeight = true;
                 List<string> experimentTitles = new List<string>();
-                ResearchAndDevelopment.GetExperimentIDs().ForEach(id => experimentTitles.Add(ResearchAndDevelopment.GetExperiment(id).experimentTitle));
+
+               ResearchAndDevelopment.GetExperimentIDs().ForEach(id => experimentTitles.Add(ResearchAndDevelopment.GetExperiment(id).experimentTitle));
                 Skin.button.fixedWidth = Mathf.Max(64f, experimentTitles.Max(title =>
                 {
                     float minWidth = 0f;
@@ -78,9 +82,10 @@ namespace ScienceAlert.Windows
                     Skin.button.CalcMinMaxWidth(new GUIContent(title + " (123.4)"), out minWidth, out maxWidth);
                     return maxWidth;
                 }));
+
                 adjustedSkin = true;
             }
-            base.OnGUI();
+                base.OnGUI();
         }
 
         internal List<ModuleScienceContainer> msc;
@@ -190,7 +195,6 @@ namespace ScienceAlert.Windows
                     if (observers[i].Available)
                     {
                         var content = new GUIContent(observers[i].ExperimentTitle);
-                        Log.Info("available: " + observers[i].ExperimentTitle);
                         color = "";
                         if (!observers[i].rerunnable) color = lblYellowColor;
                         if (!observers[i].resettable) color = lblRedColor;

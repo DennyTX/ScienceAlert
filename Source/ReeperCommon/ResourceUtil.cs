@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using ToolbarControl_NS;
 
 namespace ReeperCommon
 {
@@ -47,123 +48,13 @@ namespace ReeperCommon
             return tex as Texture2D;
         }
 
-        public static Texture2D GetEmbeddedTexture(string resource, bool compress = false, bool mip = false)
+        public static Texture2D LoadImage(string textureName, bool relativeToGameData = true)
         {
-            Stream embeddedContentsStream = GetEmbeddedContentsStream(resource);
-            if (embeddedContentsStream == null)
-            {
-                Log.Debug("[ScienceAlert]:Failed to locate embedded texture '{0}'", resource);
-                return null;
-            }
-            byte[] array = new byte[16384];
-            MemoryStream memoryStream = new MemoryStream();
-            int count;
-            while ((count = embeddedContentsStream.Read(array, 0, array.Length)) > 0)
-            {
-                memoryStream.Write(array, 0, count);
-            }
-            Texture2D texture2D = new Texture2D(1, 1, compress ? TextureFormat.DXT5 : TextureFormat.ARGB32, mip);
-            if (texture2D.LoadImage(memoryStream.ToArray()))
-            {
-                return texture2D;
-            }
-            return null;
-        }
-
-        public static bool GetEmbeddedContents(string resource, System.Reflection.Assembly assembly, out string contents)
-        {
-            contents = string.Empty;
-            try
-            {
-                Stream embeddedContentsStream = GetEmbeddedContentsStream(resource, assembly);
-                if (embeddedContentsStream != null)
-                {
-                    StreamReader streamReader = new StreamReader(embeddedContentsStream);
-                    if (streamReader != null)
-                    {
-                        contents = streamReader.ReadToEnd();
-                        return contents.Length > 0;
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Log.Debug("[ScienceAlert]:GetEmbeddedContents: {0}", ex);
-            }
-            return false;
-        }
-
-        public static bool GetEmbeddedContents(string resource, out string contents)
-        {
-            return GetEmbeddedContents(resource, System.Reflection.Assembly.GetExecutingAssembly(), out contents);
-        }
-
-        public static byte[] GetEmbeddedContentsBytes(string resource, System.Reflection.Assembly assembly)
-        {
-            Stream embeddedContentsStream = GetEmbeddedContentsStream(resource, assembly);
-            if (embeddedContentsStream != null && embeddedContentsStream.Length > 0L)
-            {
-                byte[] array = new byte[embeddedContentsStream.Length];
-                MemoryStream memoryStream = new MemoryStream();
-                int count;
-                while ((count = embeddedContentsStream.Read(array, 0, array.Length)) > 0)
-                {
-                    memoryStream.Write(array, 0, count);
-                }
-                return array;
-            }
-            return null;
-        }
-
-        public static Stream GetEmbeddedContentsStream(string resource, System.Reflection.Assembly assembly)
-        {
-            return assembly.GetManifestResourceStream(resource);
-        }
-
-        public static Stream GetEmbeddedContentsStream(string resource)
-        {
-            return GetEmbeddedContentsStream(resource, System.Reflection.Assembly.GetExecutingAssembly());
-        }
-
-        public static Texture2D LocateTexture(string textureName, bool relativeToGameData = false)
-        {
-            if (string.IsNullOrEmpty(textureName))
-            {
-                return null;
-            }
-            byte[] embeddedContentsBytes = GetEmbeddedContentsBytes(textureName, System.Reflection.Assembly.GetExecutingAssembly());
-            Texture2D texture2D;
-            if (embeddedContentsBytes != null)
-            {
-                texture2D = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                if (texture2D.LoadImage(embeddedContentsBytes))
-                {
-                    return texture2D;
-                }
-            }
-            string text = Path.GetFileNameWithoutExtension(textureName);
-            string text2 = Path.GetDirectoryName(textureName);
-            if (text.StartsWith("/") || text.StartsWith("\\"))
-            {
-                text = text.Substring(1);
-            }
-            if (text2.EndsWith("/") || text2.EndsWith("\\"))
-            {
-                text2 = text2.Substring(1);
-            }
             if (relativeToGameData)
-            {
-                textureName = text2 + "/" + text;
-            }
-            else
-            {
-                textureName = ConfigUtil.GetRelativeToGameData(ConfigUtil.GetDllDirectoryPath()) + text2 + "/" + text;
-            }
-            texture2D = GameDatabase.Instance.GetTexture(textureName, false);
-            if (texture2D == null)
-            {
+                textureName = "GameData/ScienceAlert/PluginData/Textures/" + textureName;
+            var texture2D = new Texture2D(2, 2);
+            if (!ToolbarControl.LoadImageFromFile(ref texture2D, textureName))
                 Log.Debug("[ScienceAlert]:Failed to find texture '{0}'", textureName);
-            }
             return texture2D;
         }
 

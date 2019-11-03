@@ -155,7 +155,6 @@ namespace ScienceAlert.ProfileData
 
         public static Profile MakeDefault()
         {
-            Log.Info("MakeDefault");
             return new Profile("default");
         }
 
