@@ -5,6 +5,7 @@ ChangeLog
 	Removed 120 lines related to embedded resource images
 	Found a static GUISkin which was causing the options window to be double width
 	Commented out a line in Settings which was setting the background to null
+	Restored the missing controls to close the window, lock the window, etc
 
 1.9.8.1
 	Thanks to @Gordon_Dry for this:
