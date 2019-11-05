@@ -5,6 +5,7 @@ using ScienceAlert.Experiments;
 using ScienceAlert.ProfileData;
 //ing ScienceAlert.Toolbar;
 using UnityEngine;
+using KSP.Localization;
 
 namespace ScienceAlert.Windows
 {
@@ -56,10 +57,10 @@ namespace ScienceAlert.Windows
             if (audio == null)
                 Log.Debug("[ScienceAlert]:DraggableOptionsWindow: Failed to find AudioPlayer instance");
 
-            filterList.Add(new GUIContent("Unresearched"));
-            filterList.Add(new GUIContent("Not maxed"));
-            filterList.Add(new GUIContent("< 50% collected"));
-            filterList.Add(new GUIContent("< 90% collected"));
+            filterList.Add(new GUIContent(Localizer.Format("#ScienceAlert_button1")));//"Unresearched"
+            filterList.Add(new GUIContent(Localizer.Format("#ScienceAlert_button2")));//"Not maxed"
+            filterList.Add(new GUIContent(Localizer.Format("#ScienceAlert_button3")));//"< 50% collected"
+            filterList.Add(new GUIContent(Localizer.Format("#ScienceAlert_button4")));//"< 90% collected"
 
             openButton = ResourceUtil.LoadImage("btnOpen.png");
             deleteButton = ResourceUtil.LoadImage("btnDelete.png");
@@ -79,7 +80,7 @@ namespace ScienceAlert.Windows
             whiteLabel.toggle.onNormal.textColor = Color.white;
             whiteLabel.label.onActive.textColor = Color.white;
             submenu = OpenPane.None;
-            Title = "ScienceAlert Options";
+            Title = Localizer.Format("#ScienceAlert_Optitle");//"ScienceAlert Options"
             miniLabelLeft = new GUIStyle(Skin.label) {fontSize = 10};
             miniLabelLeft.normal.textColor = miniLabelLeft.onNormal.textColor = Color.white;
             miniLabelRight = new GUIStyle(miniLabelLeft) {alignment = TextAnchor.MiddleRight};
@@ -146,23 +147,23 @@ namespace ScienceAlert.Windows
         protected override void DrawUI()
         {
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true), GUILayout.Height(Screen.height / 5 * 3));
-            GUILayout.Label(new GUIContent("Global Warp Settings"), GUILayout.ExpandWidth(true));
+            GUILayout.Label(new GUIContent(Localizer.Format("#ScienceAlert_label1")), GUILayout.ExpandWidth(true));//"Global Warp Settings"
             Settings.Instance.GlobalWarp = (Settings.WarpSetting)GUILayout.SelectionGrid((int)Settings.Instance.GlobalWarp, new[]
             {
-                new GUIContent("By Experiment"),
-                new GUIContent("Globally on"),
-                new GUIContent("Globally off")
+                new GUIContent(Localizer.Format("#ScienceAlert_button5")),//"By Experiment"
+                new GUIContent(Localizer.Format("#ScienceAlert_button6")),//"Globally on"
+                new GUIContent(Localizer.Format("#ScienceAlert_button7"))//"Globally off"
             }, 3, GUILayout.ExpandWidth(false));
-            GUILayout.Label(new GUIContent("Global Alert Sound"), GUILayout.ExpandWidth(true));
+            GUILayout.Label(new GUIContent(Localizer.Format("#ScienceAlert_label2")), GUILayout.ExpandWidth(true));//"Global Alert Sound"
             Settings.Instance.SoundNotification = (Settings.SoundNotifySetting)GUILayout.SelectionGrid((int)Settings.Instance.SoundNotification, new[]
             {
-                new GUIContent("By Experiment"),
-                new GUIContent("Always"),
-                new GUIContent("Never")
+                new GUIContent(Localizer.Format("#ScienceAlert_button5")),//"By Experiment"
+                new GUIContent(Localizer.Format("#ScienceAlert_button8")),//"Always"
+                new GUIContent(Localizer.Format("#ScienceAlert_button9"))//"Never"
             }, 3, GUILayout.ExpandWidth(false));
             GUILayout.Space(4f);
             GUILayout.BeginHorizontal();
-            GUILayout.Label(new GUIContent("Additional Options"));
+            GUILayout.Label(new GUIContent(Localizer.Format("#ScienceAlert_label3")));//"Additional Options"
             GUILayout.FlexibleSpace();
             if (AudibleButton(new GUIContent(submenu == OpenPane.AdditionalOptions ? collapseButton : expandButton)))
             {
@@ -189,9 +190,9 @@ namespace ScienceAlert.Windows
             additionalScrollPos = GUILayout.BeginScrollView(additionalScrollPos, GUILayout.ExpandHeight(true));
             GUILayout.Space(4f);
             GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
-            GUILayout.Box("User Interface Settings", GUILayout.ExpandWidth(true));
+            GUILayout.Box(Localizer.Format("#ScienceAlert_label4"), GUILayout.ExpandWidth(true));//"User Interface Settings"
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-            GUILayout.Label("Globally Enable Animation", GUILayout.ExpandWidth(true));
+            GUILayout.Label(Localizer.Format("#ScienceAlert_label5"), GUILayout.ExpandWidth(true));//"Globally Enable Animation"
             Settings.Instance.FlaskAnimationEnabled = AudibleToggle(Settings.Instance.FlaskAnimationEnabled, string.Empty, null, new[]
             {
                 GUILayout.ExpandWidth(false)
@@ -201,18 +202,18 @@ namespace ScienceAlert.Windows
                 ScienceAlert.Instance.SetLit();
             }
             GUILayout.EndHorizontal();
-            Settings.Instance.ShowReportValue = AudibleToggle(Settings.Instance.ShowReportValue, "Display Report Value");
-            Settings.Instance.DisplayCurrentBiome = AudibleToggle(Settings.Instance.DisplayCurrentBiome, "Display Biome in Experiment List");
-            Settings.Instance.EvaReportOnTop = AudibleToggle(Settings.Instance.EvaReportOnTop, "List EVA Report first");
-            GUILayout.Label("Window Opacity");
+            Settings.Instance.ShowReportValue = AudibleToggle(Settings.Instance.ShowReportValue, Localizer.Format("#ScienceAlert_toggle1"));//"Display Report Value"
+            Settings.Instance.DisplayCurrentBiome = AudibleToggle(Settings.Instance.DisplayCurrentBiome, Localizer.Format("#ScienceAlert_toggle2"));//"Display Biome in Experiment List"
+            Settings.Instance.EvaReportOnTop = AudibleToggle(Settings.Instance.EvaReportOnTop, Localizer.Format("#ScienceAlert_toggle3"));//"List EVA Report first"
+            GUILayout.Label(Localizer.Format("#ScienceAlert_label6"));//"Window Opacity"
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Less", miniLabelLeft);
+            GUILayout.Label(Localizer.Format("#ScienceAlert_label7"), miniLabelLeft);//"Less"
             GUILayout.FlexibleSpace();
-            GUILayout.Label("More", miniLabelRight);
+            GUILayout.Label(Localizer.Format("#ScienceAlert_label8"), miniLabelRight);//"More"
             GUILayout.EndHorizontal();
             Settings.Instance.WindowOpacity = (int)GUILayout.HorizontalSlider(Settings.Instance.WindowOpacity, 0f, 255f, GUILayout.ExpandWidth(true), GUILayout.MaxHeight(16f));
             GUILayout.Space(8f);
-            GUILayout.Box("Third-party Integration Options", GUILayout.ExpandWidth(true));
+            GUILayout.Box(Localizer.Format("#ScienceAlert_label9"), GUILayout.ExpandWidth(true));//"Third-party Integration Options"
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             Settings.ScanInterface scanInterfaceType = Settings.Instance.ScanInterfaceType;
             Color color = GUI.color;
@@ -220,15 +221,15 @@ namespace ScienceAlert.Windows
             {
                 GUI.color = Color.red;
             }
-            bool flag = AudibleToggle(Settings.Instance.ScanInterfaceType == Settings.ScanInterface.ScanSat, "Enable SCANsat integration", null, new[]
+            bool flag = AudibleToggle(Settings.Instance.ScanInterfaceType == Settings.ScanInterface.ScanSat, Localizer.Format("#ScienceAlert_toggle4"), null, new[]//"Enable SCANsat integration"
             {
                 GUILayout.ExpandWidth(true)
             });
             GUI.color = color;
             if (flag && scanInterfaceType != Settings.ScanInterface.ScanSat && !SCANsatInterface.IsAvailable())
             {
-                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), 
-                    "SCANsat Not Found", "SCANsat was not found. You must install SCANsat to use this feature.", "", "Okay",
+                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Localizer.Format("#ScienceAlert_Msg1title")
+                    , Localizer.Format("#ScienceAlert_Msg1"), "", Localizer.Format("#ScienceAlert_Msg1_button1"),//"SCANsat Not Found""SCANsat was not found. You must install SCANsat to use this feature.""Okay"
                     false, HighLogic.UISkin); 
                 flag = false;
             }
@@ -251,9 +252,9 @@ namespace ScienceAlert.Windows
             //Settings.Instance.ToolbarInterfaceType = (flag2 ? Settings.ToolbarInterface.BlizzyToolbar : Settings.ToolbarInterface.ApplicationLauncher);
 
             GUILayout.EndHorizontal();
-            GUILayout.Box("Crewed Vessel Settings", GUILayout.ExpandWidth(true));
+            GUILayout.Box(Localizer.Format("#ScienceAlert_label10"), GUILayout.ExpandWidth(true));//"Crewed Vessel Settings"
             bool checkSurfaceSampleNotEva = Settings.Instance.CheckSurfaceSampleNotEva;
-            Settings.Instance.CheckSurfaceSampleNotEva = AudibleToggle(checkSurfaceSampleNotEva, "Track surface sample in vessel");
+            Settings.Instance.CheckSurfaceSampleNotEva = AudibleToggle(checkSurfaceSampleNotEva, Localizer.Format("#ScienceAlert_toggle5"));//"Track surface sample in vessel"
             if (checkSurfaceSampleNotEva != Settings.Instance.CheckSurfaceSampleNotEva)
             {
                 manager.RebuildObserverList();
@@ -268,7 +269,7 @@ namespace ScienceAlert.Windows
             if (ScienceAlertProfileManager.HasActiveProfile)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box($"Profile: {ScienceAlertProfileManager.ActiveProfile.DisplayName}", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+                GUILayout.Box(Localizer.Format("#ScienceAlert_label11", ScienceAlertProfileManager.ActiveProfile.DisplayName), GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));//$"Profile: <<1>>{}"
                 if (AudibleButton(new GUIContent(renameButton), GUILayout.MaxWidth(24f)))
                 {
                     SpawnRenamePopup(ScienceAlertProfileManager.ActiveProfile);
@@ -288,18 +289,17 @@ namespace ScienceAlert.Windows
                 GUI.skin = Settings.Skin;
                 GUILayout.Space(4f);
                 GUI.SetNextControlName("ThresholdHeader");
-                GUILayout.Box("Alert Threshold");
+                GUILayout.Box(Localizer.Format("#ScienceAlert_label12"));//"Alert Threshold"
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true), GUILayout.MinHeight(14f));
                 if (ScienceAlertProfileManager.ActiveProfile.ScienceThreshold > 0f)
                 {
-                    GUILayout.Label(
-                        $"Alert Threshold: {ScienceAlertProfileManager.ActiveProfile.ScienceThreshold.ToString("F2", formatter)}");
+                    GUILayout.Label(Localizer.Format("#ScienceAlert_label13", ScienceAlertProfileManager.ActiveProfile.ScienceThreshold.ToString("F2", formatter)));//$"Alert Threshold: <<1>>"
                 }
                 else
                 {
                     Color color = GUI.color;
                     GUI.color = XKCDColors.Salmon;
-                    GUILayout.Label("(disabled)");
+                    GUILayout.Label(Localizer.Format("#ScienceAlert_label14"));//"(disabled)"
                     GUI.color = color;
                 }
                 GUILayout.FlexibleSpace();
@@ -345,7 +345,7 @@ namespace ScienceAlert.Windows
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true), GUILayout.MaxHeight(10f));
                 GUILayout.Label("0", miniLabelLeft);
                 GUILayout.FlexibleSpace();
-                GUILayout.Label("Science Amount", miniLabelCenter);
+                GUILayout.Label(Localizer.Format("#ScienceAlert_label15"), miniLabelCenter);//"Science Amount"
                 GUILayout.FlexibleSpace();
                 GUILayout.Label("100", miniLabelRight);
                 GUILayout.EndHorizontal();
@@ -359,11 +359,11 @@ namespace ScienceAlert.Windows
                     ExperimentSettings experimentSettings = ScienceAlertProfileManager.ActiveProfile[current];
                     string experimentTitle = ResearchAndDevelopment.GetExperiment(current).experimentTitle;
                     GUILayout.Box(experimentTitle, GUILayout.ExpandWidth(true));
-                    experimentSettings.Enabled = AudibleToggle(experimentSettings.Enabled, "Enabled");
-                    experimentSettings.AnimationOnDiscovery = AudibleToggle(experimentSettings.AnimationOnDiscovery, "Animation on discovery");
-                    experimentSettings.SoundOnDiscovery = AudibleToggle(experimentSettings.SoundOnDiscovery, "Sound on discovery");
-                    experimentSettings.StopWarpOnDiscovery = AudibleToggle(experimentSettings.StopWarpOnDiscovery, "Stop warp on discovery");
-                    GUILayout.Label(new GUIContent("Filter Method"), GUILayout.ExpandWidth(true), GUILayout.MinHeight(24f));
+                    experimentSettings.Enabled = AudibleToggle(experimentSettings.Enabled, Localizer.Format("#ScienceAlert_toggle6"));//"Enabled"
+                    experimentSettings.AnimationOnDiscovery = AudibleToggle(experimentSettings.AnimationOnDiscovery, Localizer.Format("#ScienceAlert_toggle7"));//"Animation on discovery"
+                    experimentSettings.SoundOnDiscovery = AudibleToggle(experimentSettings.SoundOnDiscovery, Localizer.Format("#ScienceAlert_toggle8"));//"Sound on discovery"
+                    experimentSettings.StopWarpOnDiscovery = AudibleToggle(experimentSettings.StopWarpOnDiscovery, Localizer.Format("#ScienceAlert_toggle9"));//"Stop warp on discovery"
+                    GUILayout.Label(new GUIContent(Localizer.Format("#ScienceAlert_toggle10")), GUILayout.ExpandWidth(true), GUILayout.MinHeight(24f));//"Filter Method"
                     int num2 = experimentIds[current];
                     experimentIds[current] = AudibleSelectionGrid(num2, ref experimentSettings);
                 }
@@ -371,7 +371,7 @@ namespace ScienceAlert.Windows
                 return;
             }
             GUI.color = Color.red;
-            GUILayout.Label("No profile active");
+            GUILayout.Label(Localizer.Format("#ScienceAlert_label16"));//"No profile active"
         }
 
         private void DrawProfileList()
@@ -380,7 +380,7 @@ namespace ScienceAlert.Windows
             bool profilesExist = false;
             if (ScienceAlertProfileManager.Count > 0)
             {
-                GUILayout.Label("Select a profile to load");
+                GUILayout.Label(Localizer.Format("#ScienceAlert_label17"));//"Select a profile to load"
                 GUILayout.Box(blackPixel, GUILayout.ExpandWidth(true), GUILayout.MinHeight(1f), GUILayout.MaxHeight(3f));
                 GUILayout.Space(4f);
                 Dictionary<string, Profile> profiles = ScienceAlertProfileManager.Profiles;
@@ -414,14 +414,14 @@ namespace ScienceAlert.Windows
             if (!profilesExist)
             {
                 GUILayout.FlexibleSpace();
-                GUILayout.Box("No profiles saved", GUILayout.MinHeight(64f));
+                GUILayout.Box(Localizer.Format("#ScienceAlert_label18"), GUILayout.MinHeight(64f));//"No profiles saved"
                 GUILayout.FlexibleSpace();
             }
 //IL_F1:
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (AudibleButton(new GUIContent("Cancel", "Cancel load operation")))
+            if (AudibleButton(new GUIContent(Localizer.Format("#ScienceAlert_button10"), "Cancel load operation")))//"Cancel"
             {
                 submenu = OpenPane.None;
             }
@@ -488,10 +488,10 @@ namespace ScienceAlert.Windows
             LockControls("ScienceAlertSavePopup");
 
             DialogGUIBase[] dialogOptions = new DialogGUIBase[2];
-            dialogOptions[0] = new DialogGUIButton("SAVE", SaveCurrentProfile);
-            dialogOptions[1] = new DialogGUIButton("CANCEL", DismissPopup);
+            dialogOptions[0] = new DialogGUIButton(Localizer.Format("#ScienceAlert_button11"), SaveCurrentProfile);//"SAVE"
+            dialogOptions[1] = new DialogGUIButton(Localizer.Format("#ScienceAlert_button12"), DismissPopup);//"CANCEL"
 
-            popup = PopupDialog.SpawnPopupDialog(new MultiOptionDialog( "", "", $"SAVE '{editText}'?",
+            popup = PopupDialog.SpawnPopupDialog(new MultiOptionDialog( "", "", Localizer.Format("#ScienceAlert_label19", editText),//$"SAVE '{}'?"
                 HighLogic.UISkin, dialogOptions),
                 false, HighLogic.UISkin);
         }
@@ -507,9 +507,9 @@ namespace ScienceAlert.Windows
             if (ScienceAlertProfileManager.HaveStoredProfile(editText) && ScienceAlertProfileManager.ActiveProfile.name != editText)
             {
                 popup = PopupDialog.SpawnPopupDialog(new MultiOptionDialog("","",
-                        $"Profile '{editText}' already exists!", HighLogic.UISkin,
-                    new DialogGUIButton("Overwrite", SaveCurrentProfileOverwrite),
-                    new DialogGUIButton("Cancel", DismissPopup)),
+                        Localizer.Format("#ScienceAlert_label20",editText), HighLogic.UISkin,//$"Profile '{}' already exists!"
+                    new DialogGUIButton(Localizer.Format("#ScienceAlert_button13"), SaveCurrentProfileOverwrite),//"Overwrite"
+                    new DialogGUIButton(Localizer.Format("#ScienceAlert_button10"), DismissPopup)),//"Cancel"
                     false, HighLogic.UISkin);
             }
             else
@@ -531,11 +531,11 @@ namespace ScienceAlert.Windows
 
             DialogGUIBase[] dialogOptions = new DialogGUIBase[3];
             dialogOptions[0] = new DialogGUITextInput(editText, false, 22, s =>{ editText = s;return s;},30f); 
-            dialogOptions[1] = new DialogGUIButton("RENAME", RenameTargetProfile);
-            dialogOptions[2] = new DialogGUIButton("CANCEL", DismissPopup);
+            dialogOptions[1] = new DialogGUIButton(Localizer.Format("#ScienceAlert_button14"), RenameTargetProfile);//"RENAME"
+            dialogOptions[2] = new DialogGUIButton(Localizer.Format("#ScienceAlert_button10"), DismissPopup);//"CANCEL"
 
             popup = PopupDialog.SpawnPopupDialog(
-                new MultiOptionDialog("", "", $"Rename '{target.name}' to:",
+                new MultiOptionDialog("", "", Localizer.Format("#ScienceAlert_Msg2title", target.name),//$"Rename '{}' to:"
                 HighLogic.UISkin, dialogOptions),
                 false, HighLogic.UISkin);
         }
@@ -552,9 +552,9 @@ namespace ScienceAlert.Windows
                 {
                     popup.Dismiss();
                     popup = PopupDialog.SpawnPopupDialog(
-                        new MultiOptionDialog(string.Empty, $"'{editText}' already exists. Overwrite?", "RenameTargetProfile", HighLogic.UISkin, 
-                        new DialogGUIButton("Yes", RenameTargetProfileOverwrite),
-                        new DialogGUIButton("No", DismissPopup)),
+                        new MultiOptionDialog(string.Empty, Localizer.Format("#ScienceAlert_Msg2", editText), Localizer.Format("#ScienceAlert_Msg2title2"), HighLogic.UISkin, //$"'{}' already exists. Overwrite?""RenameTargetProfile"
+                        new DialogGUIButton(Localizer.Format("#ScienceAlert_Msg2_button1"), RenameTargetProfileOverwrite),//"Yes"
+                        new DialogGUIButton(Localizer.Format("#ScienceAlert_Msg2_button2"), DismissPopup)),//"No"
                         false, HighLogic.UISkin);
                     return;
                 }
@@ -587,9 +587,9 @@ namespace ScienceAlert.Windows
             editProfile = target;
             LockControls("ScienceAlertDeletePopup");
             popup = PopupDialog.SpawnPopupDialog(
-                new MultiOptionDialog("","", $"Are you sure you want to\ndelete '{target.name}'?", HighLogic.UISkin, 
-                new DialogGUIButton("Confirm", DeleteTargetProfile), 
-                new DialogGUIButton("Cancel", DismissPopup)),
+                new MultiOptionDialog("","", Localizer.Format("#ScienceAlert_Msg3", target.name), HighLogic.UISkin, //$"Are you sure you want to\ndelete '{}'?"
+                new DialogGUIButton(Localizer.Format("#ScienceAlert_button15"), DeleteTargetProfile), //"Confirm"
+                new DialogGUIButton(Localizer.Format("#ScienceAlert_button10"), DismissPopup)),//"Cancel"
                 false, HighLogic.UISkin);
         }
 
@@ -604,10 +604,10 @@ namespace ScienceAlert.Windows
             editProfile = target;
             LockControls("ScienceAlertOpenPopup");
             popup = PopupDialog.SpawnPopupDialog(
-                new MultiOptionDialog(string.Empty, $"Load '{editProfile.name}'?\nUnsaved settings will be lost.",
-                "ScienceAlertOpenPopup", HighLogic.UISkin,
-                new DialogGUIButton("Confirm", LoadTargetProfile),
-                new DialogGUIButton("Cancel", DismissPopup)),
+                new MultiOptionDialog(string.Empty,Localizer.Format("#ScienceAlert_Msg3_2", editProfile.name) ,//$"Load '{}'?\nUnsaved settings will be lost."
+                Localizer.Format("#ScienceAlert_Msg3title"), HighLogic.UISkin,//"Science Alert Open Popup"
+                new DialogGUIButton(Localizer.Format("#ScienceAlert_button15"), LoadTargetProfile),//"Confirm"
+                new DialogGUIButton(Localizer.Format("#ScienceAlert_button10"), DismissPopup)),//"Cancel"
                 false, HighLogic.UISkin);
         }
 

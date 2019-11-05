@@ -4,6 +4,7 @@ using System.Linq;
 using ReeperCommon;
 using ScienceAlert.Experiments;
 using UnityEngine;
+using KSP.Localization;
 
 namespace ScienceAlert.Windows
 {
@@ -21,7 +22,7 @@ namespace ScienceAlert.Windows
         protected override Rect Setup()
         {
             Instance = this;
-            Title = "Available Experiments";
+            Title = Localizer.Format("#ScienceAlert_title");//"Available Experiments"
             ShrinkHeightToFit = true;
             Skin = Instantiate(Settings.Skin); // we'll be altering it a little bit to make sure the buttons are the right size
 
@@ -47,7 +48,7 @@ namespace ScienceAlert.Windows
                     {
                         if (!scanInterface.HaveScanData(FlightGlobals.ActiveVessel.latitude, FlightGlobals.ActiveVessel.longitude, FlightGlobals.ActiveVessel.mainBody))
                         {
-                            Title = "Data not found";
+                            Title = Localizer.Format("#ScienceAlert_HaveScanData");//"Data not found"
                             return;
                         }
                     }
@@ -142,12 +143,12 @@ namespace ScienceAlert.Windows
 
                 if (observers.All(eo => !eo.Available))
                 {
-                    GUILayout.Label("(no experiments available)");
+                    GUILayout.Label(Localizer.Format("#ScienceAlert_Available"));//"(no experiments available)"
                 }
                 else
                 {
                     doAll = false;
-                    if (GUILayout.Button("Deploy All", Settings.Skin.button))
+                    if (GUILayout.Button(Localizer.Format("#ScienceAlert_DeployAll"), Settings.Skin.button))//"Deploy All"
                     {
                         doAll = true;                        
                         noEva = false;
@@ -155,7 +156,7 @@ namespace ScienceAlert.Windows
 
                     if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) > 0 || expSituation == ExperimentSituations.SrfLanded)
                     {
-                        if (GUILayout.Button("Deploy All except EVA", Settings.Skin.button, GUILayout.Height(35)))
+                        if (GUILayout.Button(Localizer.Format("#ScienceAlert_DeployexEVA"), Settings.Skin.button, GUILayout.Height(35)))//"Deploy All except EVA"
                         {
                             doAll = true;
                             noEva = true;
@@ -167,7 +168,7 @@ namespace ScienceAlert.Windows
                     if (msc != null && msc.Count > 0)
                     {
 
-                        if (GUILayout.Button("Collect All", Settings.Skin.button))
+                        if (GUILayout.Button(Localizer.Format("#ScienceAlert_CollectAll"), Settings.Skin.button))//"Collect All"
                         {
                             foreach (var m in msc)
                             {
@@ -178,7 +179,7 @@ namespace ScienceAlert.Windows
                     else
                     {
                         GUI.enabled = false;
-                        GUILayout.Button("Collect All (no science containers available)");
+                        GUILayout.Button(Localizer.Format("#ScienceAlert_Nocontainers"));//"Collect All (no science containers available)"
                         GUI.enabled = true;
                     }
                 }
