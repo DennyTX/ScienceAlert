@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.8.3
+	Some localization changes
+
 1.9.8.2
 	Replaced embedded resource images with files
 	Removed 120 lines related to embedded resource images
