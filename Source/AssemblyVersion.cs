@@ -9,4 +9,4 @@
   
  using System.Reflection;
 
- [assembly: AssemblyVersion("1.9.8.3")]
+ [assembly: AssemblyVersion("1.9.8.4")]

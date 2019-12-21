@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.8.5
+	Moved initialization of variables  into Awake 
+
 1.9.8.4
 	Moved the Localization directory & file into the release directory
 

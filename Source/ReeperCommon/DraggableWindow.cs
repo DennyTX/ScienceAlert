@@ -8,10 +8,10 @@ namespace ReeperCommon
 
     public abstract class DraggableWindow : MonoBehaviour
     {
-        protected Rect windowRect = default(Rect);
-        protected Rect lastRect = default(Rect);
+        protected Rect windowRect; // = default(Rect);
+        protected Rect lastRect; // = default(Rect);
         /* static */ private GUISkin skin = null;
-        private int winId = Random.Range(2444, 2147483647);
+        private int winId; // = Random.Range(2444, 2147483647);
         private static Vector2 offset = new Vector2(4f, 4f);
         private static GUIStyle buttonStyle;
         private bool draggable = true;
@@ -166,6 +166,7 @@ namespace ReeperCommon
 
         protected void Awake()
         {
+            winId = Random.Range(2444, 2147483647);
             if (buttonStyle == null)
             {
                 buttonStyle = new GUIStyle(GUIStyle.none);
@@ -180,7 +181,11 @@ namespace ReeperCommon
             Title = "Draggable Window";
             windowRect = Setup();
             lastRect = new Rect(windowRect);
-            GameEvents.onHideUI.Add(OnHideUI);
+
+                     windowRect = default(Rect);
+         lastRect = default(Rect);
+
+        GameEvents.onHideUI.Add(OnHideUI);
             GameEvents.onShowUI.Add(OnShowUI);
         }
 
