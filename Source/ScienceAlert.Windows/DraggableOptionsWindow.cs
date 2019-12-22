@@ -46,10 +46,9 @@ namespace ScienceAlert.Windows
         internal PopupDialog popup;
         internal string badChars = "()[]?'\":#$%^&*~;\n\t\r!@,.{}/<>";
 
-        new void Awake()
-        {
-            base.Awake();
-
+        protected override Rect Setup()
+        { 
+            initialized = true;
             scrollPos = default(Vector2);
             additionalScrollPos = default(Vector2);
             profileScrollPos = Vector2.zero;
@@ -61,10 +60,7 @@ namespace ScienceAlert.Windows
             deleteButton = new Texture2D(24, 24);
             renameButton = new Texture2D(24, 24);
             blackPixel = new Texture2D(1, 1);
-        }
-
-        protected override Rect Setup()
-        {
+            
             formatter = (System.Globalization.NumberFormatInfo)System.Globalization.NumberFormatInfo.CurrentInfo.Clone();
             formatter.CurrencySymbol = string.Empty;
             formatter.CurrencyDecimalDigits = 2;

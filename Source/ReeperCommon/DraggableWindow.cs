@@ -182,8 +182,8 @@ namespace ReeperCommon
             windowRect = Setup();
             lastRect = new Rect(windowRect);
 
-                     windowRect = default(Rect);
-         lastRect = default(Rect);
+                     //windowRect = default(Rect);
+         //lastRect = default(Rect);
 
         GameEvents.onHideUI.Add(OnHideUI);
             GameEvents.onShowUI.Add(OnShowUI);

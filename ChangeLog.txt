@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.8.6
+	Fixed initialization of variables in DraggableWindow (two Awake() methods were conflicting)
+
 1.9.8.5
 	Moved initialization of variables  into Awake 
 
