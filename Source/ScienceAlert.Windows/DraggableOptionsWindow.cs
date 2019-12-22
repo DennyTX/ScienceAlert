@@ -48,7 +48,6 @@ namespace ScienceAlert.Windows
 
         protected override Rect Setup()
         { 
-            initialized = true;
             scrollPos = default(Vector2);
             additionalScrollPos = default(Vector2);
             profileScrollPos = Vector2.zero;
