@@ -276,6 +276,7 @@ namespace ReeperCommon
             Write(string.Format(message, strParams), level);
 
         }
+        [ConditionalAttribute("DEBUG")]
         internal static void Debug(string message, params object[] strParams)
         {
             Write(message, LEVEL.INFO, strParams);
