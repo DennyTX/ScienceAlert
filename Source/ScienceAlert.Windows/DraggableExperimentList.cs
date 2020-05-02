@@ -97,7 +97,7 @@ namespace ScienceAlert.Windows
             {
                 var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
 
-                for (int i = parts.Count - 1; i > 0; i--)
+                for (int i = parts.Count - 1; i >= 0; i--)
                 {
                     Part part = parts[i];
                     if (part.Modules["ModuleScienceContainer"].Events["CollectAllEvent"].guiActive)
@@ -120,7 +120,7 @@ namespace ScienceAlert.Windows
 
                 var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
 
-                for (int i = parts.Count - 1; i > 0; i--)
+                for (int i = parts.Count - 1; i >= 0; i--)
                 {
                     var m = parts[i].Modules["ModuleScienceContainer"] as ModuleScienceContainer;
                     if (m.capacity == 0 || m.GetStoredDataCount() < m.capacity)

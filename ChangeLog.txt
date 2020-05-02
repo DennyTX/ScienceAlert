@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.8.7 (unreleased)
+	Fixed Collect all to be visible even when only one science container on vessel
+
 1.9.8.6
 	Fixed initialization of variables in DraggableWindow (two Awake() methods were conflicting)
 
