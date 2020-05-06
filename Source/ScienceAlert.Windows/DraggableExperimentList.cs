@@ -18,7 +18,7 @@ namespace ScienceAlert.Windows
         public ScanInterface scanInterface;
 
         private bool adjustedSkin;
-        
+
         protected override Rect Setup()
         {
             Instance = this;
@@ -75,7 +75,7 @@ namespace ScienceAlert.Windows
                 Skin.window.stretchHeight = true;
                 List<string> experimentTitles = new List<string>();
 
-               ResearchAndDevelopment.GetExperimentIDs().ForEach(id => experimentTitles.Add(ResearchAndDevelopment.GetExperiment(id).experimentTitle));
+                ResearchAndDevelopment.GetExperimentIDs().ForEach(id => experimentTitles.Add(ResearchAndDevelopment.GetExperiment(id).experimentTitle));
                 Skin.button.fixedWidth = Mathf.Max(64f, experimentTitles.Max(title =>
                 {
                     float minWidth = 0f;
@@ -86,7 +86,7 @@ namespace ScienceAlert.Windows
 
                 adjustedSkin = true;
             }
-                base.OnGUI();
+            base.OnGUI();
         }
 
         internal List<ModuleScienceContainer> msc;
@@ -94,15 +94,19 @@ namespace ScienceAlert.Windows
         internal void CheckForCollection()
         {
             msc = new List<ModuleScienceContainer>();
-            {
-                var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
 
+            if (FlightGlobals.ActiveVessel != null)
+            {
+                //var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
+                //Part part = parts[0];
+                var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
                 for (int i = parts.Count - 1; i >= 0; i--)
                 {
                     Part part = parts[i];
-                    if (part.Modules["ModuleScienceContainer"].Events["CollectAllEvent"].guiActive)
+
+                    var m = part.Modules["ModuleScienceContainer"] as ModuleScienceContainer;
+                    if (m != null && m.Events["CollectAllEvent"].guiActive)
                     {
-                        var m = part.Modules["ModuleScienceContainer"] as ModuleScienceContainer;
                         msc.Add(m);
                     }
                 }
@@ -114,12 +118,13 @@ namespace ScienceAlert.Windows
         public int AnyAvailableScienceContainers()
         {
             int dataCnt = 0;
-            if (FlightGlobals.ActiveVessel != null)
+            if (FlightGlobals.ActiveVessel != null && FlightGlobals.ActiveVessel.Parts.Count > 1) //a single Kerbal doesn't have a "collect all" action.
             {
                 Vessel activeVessel = FlightGlobals.ActiveVessel;
 
                 var parts = FlightGlobals.ActiveVessel.Parts.FindAll(p => p.Modules.Contains("ModuleScienceContainer"));
 
+                // make sure there is capacity available
                 for (int i = parts.Count - 1; i >= 0; i--)
                 {
                     var m = parts[i].Modules["ModuleScienceContainer"] as ModuleScienceContainer;
@@ -150,7 +155,7 @@ namespace ScienceAlert.Windows
                     doAll = false;
                     if (GUILayout.Button(Localizer.Format("#ScienceAlert_DeployAll"), Settings.Skin.button))//"Deploy All"
                     {
-                        doAll = true;                        
+                        doAll = true;
                         noEva = false;
                     }
 
@@ -183,9 +188,9 @@ namespace ScienceAlert.Windows
                         GUI.enabled = true;
                     }
                 }
-                
+
                 if (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) == 0 && (expSituation != ExperimentSituations.SrfLanded ||
-                    !FlightGlobals.ActiveVessel.mainBody.isHomeWorld)   )
+                    !FlightGlobals.ActiveVessel.mainBody.isHomeWorld))
                     noEva = true;
                 //-----------------------------------------------------
                 // Experiment list
@@ -212,7 +217,7 @@ namespace ScienceAlert.Windows
                         AudioPlayer.Audio.PlayUI("click2");
                         observers[i].Deploy();
                     }
-                }            
+                }
             }
 
             GUILayout.EndVertical();

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using ReeperCommon;
 using ScienceAlert.Experiments;
 using ScienceAlert.ProfileData;
-//using ScienceAlert.Toolbar;
 using ScienceAlert.Windows;
 using UnityEngine;
 using KSP.UI.Screens;
@@ -12,7 +11,6 @@ using KSP.UI.Screens;
 using ToolbarControl_NS;
 
 using System.Linq;
-
 
 namespace ScienceAlert
 {
@@ -33,9 +31,9 @@ namespace ScienceAlert
         internal ToolbarControl toolbarControl;
         private ScanInterface scanInterface;
         public DraggableOptionsWindow optionsWindow;
-        public static ScienceAlert Instance;
+        public static ScienceAlert Instance = null;
         internal ExcludeFilters excludeFilters;
-        
+
         private Settings.ScanInterface scanInterfaceType;
         public event Callback OnScanInterfaceChanged = delegate { };
         public event Callback OnToolbarButtonChanged = delegate { };
@@ -95,22 +93,8 @@ namespace ScienceAlert
                         GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, nflask, false, true, true);
                         ti.name = NormalFlaskTexture;
                         GameDatabase.Instance.databaseTexture.Add(ti);
-                       // Log.Debug("Created normal flask texture {0}", ti.name);
+                        // Log.Debug("Created normal flask texture {0}", ti.name);
                     }
-#if false
-                    nflask = ResourceUtil.LoadImage("flask-38.png");
-                    if (nflask == null)
-                    {
-                        Log.Error("Failed to create normal flask-38 texture!");
-                    }
-                    else
-                    {
-                        GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, nflask, false, true, true);
-                        ti.name = NormalFlaskTexture + "-38";
-                        GameDatabase.Instance.databaseTexture.Add(ti);
-                       // Log.Debug("Created normal flask texture {0}", ti.name);
-                    }
-#endif
                     //
                     // Load textures for animation here
                     //
@@ -140,7 +124,7 @@ namespace ScienceAlert
                             ti.name = StarFlaskTextures.Last();
 
                             GameDatabase.Instance.databaseTexture.Add(ti);
-                           // Log.Debug("Added sheet texture {0}", ti.name);
+                            // Log.Debug("Added sheet texture {0}", ti.name);
                         }
 
                         RenderTexture.active = oldRt;
@@ -173,7 +157,7 @@ namespace ScienceAlert
                             ti.name = StarFlaskTextures38.Last();
 
                             GameDatabase.Instance.databaseTexture.Add(ti);
-                           // Log.Debug("Added sheet texture {0}", ti.name);
+                            // Log.Debug("Added sheet texture {0}", ti.name);
                         }
 
                         RenderTexture.active = oldRt;
@@ -269,7 +253,7 @@ namespace ScienceAlert
             TexturePath = StarFlaskTextures[0];
             toolbarControl.SetTexture(StarFlaskTextures38[0], StarFlaskTextures[0]);
         }
-#if true
+
         private void Update()
         {
 
@@ -278,7 +262,7 @@ namespace ScienceAlert
                 animation.MoveNext();
             }
         }
-#endif
+
         public Settings.ScanInterface ScanInterfaceType
         {
             get
@@ -322,7 +306,11 @@ namespace ScienceAlert
             }
         }
 
-        private IEnumerator Start()
+        void Start()
+        {
+            StartCoroutine(DoStart());
+        }
+        private IEnumerator DoStart()
         {
             while (ResearchAndDevelopment.Instance == null)
             {
@@ -337,6 +325,7 @@ namespace ScienceAlert
                 yield return 0;
             }
             Instance = this;
+
             while (ScienceAlertProfileManager.Instance == null || !ScienceAlertProfileManager.Instance.Ready)
             {
                 yield return 0;
@@ -354,20 +343,16 @@ namespace ScienceAlert
             {
                 Destroy(this);
             }
+             DMagicFactory.InitDMagicFactory();
+
+
             gameObject.AddComponent<AudioPlayer>().LoadSoundsFrom(ConfigUtil.GetDllDirectoryPath() + "/../sounds");
             gameObject.AddComponent<BiomeFilter>();
             gameObject.AddComponent<ExperimentManager>();
             gameObject.AddComponent<WindowEventLogic>();
             excludeFilters = new ExcludeFilters();
             ScanInterfaceType = Settings.Instance.ScanInterfaceType;
-            //ToolbarType = Settings.Instance.ToolbarInterfaceType;
-#if false
-            string[] resourceNames = this.GetType().Assembly.GetManifestResourceNames();
-            foreach (string resourceName in resourceNames)
-            {
-                Debug.Log("resource: " + resourceName);
-            }
-#endif
+
             SliceAtlasTexture();
             CreateButton();
         }
@@ -380,6 +365,7 @@ namespace ScienceAlert
                 Destroy(toolbarControl);
             }
             Settings.Instance.Save();
+            Instance = null;
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 using ReeperCommon;
 using ScienceAlert.ProfileData;
 
+
 namespace ScienceAlert.Experiments
 {
     using ProfileManager = ScienceAlertProfileManager;
@@ -19,6 +20,7 @@ namespace ScienceAlert.Experiments
         private ScienceAlert scienceAlert;
         private StorageCache vesselStorage;
         private BiomeFilter biomeFilter;
+
 
         private System.Collections.IEnumerator watcher;
 
@@ -198,9 +200,9 @@ namespace ScienceAlert.Experiments
                 Log.Error("ExperimentManager.RebuildObserverList: No ScanInterface component found"); // this is bad; things won't break if the scan interface
 
             // construct the experiment observer list ...
-            for (int i = ResearchAndDevelopment.GetExperimentIDs().Count - 1; i >= 0; i--)
+            for (int eid = ResearchAndDevelopment.GetExperimentIDs().Count - 1; eid >= 0; eid--)
             {
-                string expid = ResearchAndDevelopment.GetExperimentIDs()[i];
+                string expid = ResearchAndDevelopment.GetExperimentIDs()[eid];
 
                 if (expid != "evaReport" && expid != "surfaceSample") // special cases
                 {
@@ -212,10 +214,12 @@ namespace ScienceAlert.Experiments
                             observers.Add(new ExperimentObserver(vesselStorage, ProfileManager.ActiveProfile[expid], biomeFilter, scanInterface, expid, m[0]));
                         }
                     }
+
+
+
                 }
             }
             observers.Add(new SurfaceSampleObserver(vesselStorage, ProfileManager.ActiveProfile["surfaceSample"], biomeFilter, scanInterface));
-
             try
             {
                 if (ProfileManager.ActiveProfile["evaReport"].Enabled)

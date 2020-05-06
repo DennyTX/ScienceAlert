@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{835DC165-6942-4C55-A84E-A9DE6B6FA840}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <AssemblyName>ScienceAlert</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <TargetFrameworkProfile />
@@ -37,6 +37,14 @@
     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\UnityEngine*.dll">
       <Private>False</Private>
     </Reference>
+    <Reference Include="DMagic, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.9.1_dev\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="DMModuleScienceAnimateGeneric, Version=0.22.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.9.1_dev\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="ClickThroughBlocker">
       <HintPath>$(KSPDIR)\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
@@ -48,14 +56,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetAssemblyInfo.cs" />
     <Compile Include="AssemblyVersion.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyVersion.tt</DependentUpon>
     </Compile>
+    <Compile Include="DMagicStuff.cs" />
+    <Compile Include="DMModuleScienceAnimateGenericStuff.cs" />
     <Compile Include="InstallChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReeperCommon\ConfigNodeTypeHandler.cs" />
+    <Compile Include="ReeperCommon\DMagic.cs" />
     <Compile Include="ReeperCommon\ReeperConfigNodeExtensions.cs" />
     <Compile Include="ReeperCommon\DraggableWindow.cs" />
     <Compile Include="ReeperCommon\AudioPlayer.cs" />

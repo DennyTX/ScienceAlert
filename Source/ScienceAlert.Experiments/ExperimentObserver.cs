@@ -236,8 +236,9 @@ namespace ScienceAlert.Experiments
 
                         nextReportValue = subject.CalculateNextReport(experiment, data);
                         Available = Available && nextReportValue > 0.01f;
-                        Available = Available && nextReportValue >
-                                    ScienceAlertProfileManager.ActiveProfile.ScienceThreshold;
+                        if (ScienceAlertProfileManager.ActiveProfile != null)
+                            Available = Available && nextReportValue >
+                                        ScienceAlertProfileManager.ActiveProfile.ScienceThreshold;
 
                         if (Available)
                         {
@@ -276,31 +277,22 @@ namespace ScienceAlert.Experiments
             if (FlightGlobals.ActiveVessel == null) return false;
             if (requireControllable && !FlightGlobals.ActiveVessel.IsControllable) return false;
 
-            var deployable = GetNextOnboardExperimentModule();
+            var exp = GetNextOnboardExperimentModule();
 
-            if (!deployable) return false;
+            if (!exp) return false;
 
-            try
+
+
+            if (!(DMagicFactory.DMagic_IsInstalled && DMagicFactory.RunExperiment(experiment.id, exp)) &&
+                !(DMagicFactory.DMagicScienceAnimateGeneric_IsInstalled && DMagicFactory.RunSciAnimGenExperiment(experiment.id, exp)))
             {
-                deployable.GetType()
-                    .InvokeMember("DeployExperiment",
-                        System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.IgnoreReturn |
-                        System.Reflection.BindingFlags.InvokeMethod, null, deployable, null);
+                exp.DeployExperiment();
+                return true;
             }
-            catch (Exception e)
-            {
-                Log.Error(
-                    "Failed to invoke \"DeployExperiment\" using GetType(), falling back to base type after encountering exception {0}",
-                    e);
-                deployable.DeployExperiment();
-            }
-            return true;
+            return false;
         }
-
-
-
         #region Properties
-        
+
         protected ModuleScienceExperiment GetNextOnboardExperimentModule()
         {
             for (int i = modules.Count - 1; i >= 0; i--)

@@ -252,16 +252,7 @@ namespace ScienceAlert.Windows
             //Settings.ToolbarInterface toolbarInterfaceType = Settings.Instance.ToolbarInterfaceType;
             Color color2 = GUI.color;
 
-            //bool flag2 = AudibleToggle(Settings.Instance.ToolbarInterfaceType == Settings.ToolbarInterface.BlizzyToolbar, "Use Blizzy toolbar");
             GUI.color = color2;
-            //if (flag2 && toolbarInterfaceType != Settings.ToolbarInterface.BlizzyToolbar && !ToolbarManager.ToolbarAvailable)
-            //{
-            //             PopupDialog.SpawnPopupDialog("Blizzy Toolbar Not Found",
-            //                 "Blizzy's toolbar was not found. You must install Blizzy's toolbar to use this feature.",
-            //                 "Okay", false, Settings.Skin); //???
-            //             flag2 = false;
-            //}
-            //Settings.Instance.ToolbarInterfaceType = (flag2 ? Settings.ToolbarInterface.BlizzyToolbar : Settings.ToolbarInterface.ApplicationLauncher);
 
             GUILayout.EndHorizontal();
             GUILayout.Box(Localizer.Format("#ScienceAlert_label10"), GUILayout.ExpandWidth(true));//"Crewed Vessel Settings"
@@ -407,21 +398,6 @@ namespace ScienceAlert.Windows
                     }
                 }
 
-                // Uuugh   ungly GOTO, must get rid of it
-#if false
-                using (Dictionary<string, Profile>.ValueCollection.Enumerator enumerator = profiles.Values.GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        Profile current = enumerator.Current;
-                        if (current != ScienceAlertProfileManager.DefaultProfile)
-                        {
-                            DrawProfileList_ListItem(current);
-                        }
-                    }
-                    goto IL_F1;
-                }
-#endif
             }
             if (!profilesExist)
             {

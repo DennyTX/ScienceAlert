@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ReeperCommon;
+using System.Linq;
 
 namespace ScienceAlert.Experiments
 {
@@ -7,12 +8,12 @@ namespace ScienceAlert.Experiments
     {
         public EvaReportObserver(StorageCache cache, ProfileData.ExperimentSettings settings, BiomeFilter filter,
             ScanInterface scanInterface, string expid = "evaReport")
-            : base(cache, settings, filter, scanInterface, expid){}
+            : base(cache, settings, filter, scanInterface, expid) { }
 
         public override bool Deploy()
         {
             if (!Available || !IsReadyOnboard) return false;
-            if (FlightGlobals.ActiveVessel == null)return false;
+            if (FlightGlobals.ActiveVessel == null) return false;
 
             if (!FlightGlobals.ActiveVessel.isEVA)
             {
@@ -42,12 +43,19 @@ namespace ScienceAlert.Experiments
                 ModuleScienceExperiment exp = evas[i];
                 if (!exp.Deployed && exp.experimentID == experiment.id && !ExcludeFilters.IsExcluded(exp))
                 {
-                    exp.DeployExperiment();
+                    //exp.DeployExperiment();
+                    if (!(DMagicFactory.DMagic_IsInstalled && DMagicFactory.RunExperiment(experiment.id, exp)) &&
+                        !(DMagicFactory.DMagicScienceAnimateGeneric_IsInstalled && DMagicFactory.RunSciAnimGenExperiment(experiment.id, exp)))
+                    {
+                        exp.DeployExperiment();
+                    }
                     break;
                 }
             }
             return true;
         }
+
+
 
         protected void OnConfirmEva()
         {

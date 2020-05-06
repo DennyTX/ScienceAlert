@@ -32,13 +32,6 @@ namespace ScienceAlert
             ScanSat
         }
 
-#if false
-        public enum ToolbarInterface
-        {
-            //ApplicationLauncher,
-            BlizzyToolbar
-        }
-#endif
 
         private static Settings instance;
 
@@ -221,7 +214,9 @@ namespace ScienceAlert
                 return;
             }
             configNode.CreateObjectFromConfigEx(this);
+#if OLDLOG
             Log.LoadFrom(configNode);
+#endif
             OnLoad(additional);
         }
 
@@ -237,7 +232,9 @@ namespace ScienceAlert
             {
                 Log.Debug("[ScienceAlert]:Exception while creating ConfigNode from settings: {0}", ex);
             }
+#if OLDLOG
             Log.SaveInto(configNode);
+#endif
             if (configNode.CountNodes <= 0 && configNode.CountValues <= 0) return;
             Log.Debug("[ScienceAlert]:Saving settings to {0}", ConfigPath);
             configNode.Save(ConfigPath);

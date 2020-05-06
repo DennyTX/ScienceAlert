@@ -12,7 +12,7 @@ namespace ScienceAlert.Windows
     {
         internal static DraggableExperimentList experimentList;
         internal static DraggableOptionsWindow optionsWindow;
-#if false
+#if DEBUGWINDOW
         internal static DraggableDebugWindow debugWindow;
 #endif
         internal ScienceAlert scienceAlert;
@@ -37,7 +37,7 @@ namespace ScienceAlert.Windows
             experimentList = new GameObject("ScienceAlert.ExperimentList").AddComponent<DraggableExperimentList>();
             experimentList.biomeFilter = GetComponent<BiomeFilter>();
             experimentList.manager = GetComponent<ExperimentManager>();
-#if false
+#if DEBUGWINDOW
             debugWindow = new GameObject("ScienceAlert.DebugWindow").AddComponent<DraggableDebugWindow>();
             debugWindow.Visible = false;
 #endif
@@ -49,7 +49,7 @@ namespace ScienceAlert.Windows
 
             //scienceAlert.OnToolbarButtonChanged += OnToolbarChanged;
             scienceAlert.OnScanInterfaceChanged += OnInterfaceChanged;
-#if false
+#if DEBUGWINDOW
             debugWindow.OnVisibilityChange += OnWindowVisibilityChanged;
 #endif
             //OnToolbarChanged();

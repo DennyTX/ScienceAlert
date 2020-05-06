@@ -120,7 +120,7 @@ namespace ScienceAlert.ProfileData
                 node.AddNode(newNode);
                 current.Value.OnSave(newNode);
             }
-            Log.Debug("ALERT:Profile: OnSave config: {0}", node.ToString());
+           //Log.Debug("ALERT:Profile: OnSave config: {0}", node.ToString());
         }
 
         public void OnLoad(ConfigNode node)

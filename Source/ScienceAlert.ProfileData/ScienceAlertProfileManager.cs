@@ -340,12 +340,10 @@ namespace ScienceAlert.ProfileData
         {
             get
             {
-                var vessel = FlightGlobals.ActiveVessel;
-
-                if (vessel == null)
-                {
+                if (HighLogic.LoadedScene == GameScenes.SPACECENTER || FlightGlobals.ActiveVessel == null || Instance.vesselProfiles ==null)
                     return null;
-                }
+                var vessel = FlightGlobals.ActiveVessel;
+                
                 if (!Instance.vesselProfiles.ContainsKey(vessel.id))
                 {
                     Instance.vesselProfiles.Add(vessel.id, DefaultProfile.Clone());
