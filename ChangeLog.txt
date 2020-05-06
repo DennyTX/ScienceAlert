@@ -7,6 +7,8 @@ ChangeLog
 	Added support for the DMagic experiments
 	Added support for DMModuleScienceAnimateGeneric
 	Added check for old version of DMModuleScienceAnimateGeneric (disables if less than 0.23)
+	Thanks to githb user @Fitiales:
+		Added spanish translation
 
 1.9.8.6
 	Fixed initialization of variables in DraggableWindow (two Awake() methods were conflicting)
