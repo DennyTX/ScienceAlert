@@ -41,7 +41,8 @@ namespace ScienceAlert
         internal const string MODID = "ScienceAlert_NS";
         internal const string MODNAME = "Science Alert";
 
-        private const string NormalFlaskTexture = "ScienceAlert/PluginData/Textures/flask";
+        private const string BlizzyNormalFlaskTexture = "ScienceAlert/PluginData/Textures/flask";
+        private const string StockNormalFlaskTexture = "ScienceAlert/PluginData/Textures/flask-38";
         private int FrameCount = 100;
         private List<string> StarFlaskTextures = new List<string>();
         private List<string> StarFlaskTextures38 = new List<string>();
@@ -57,8 +58,8 @@ namespace ScienceAlert
                     ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
                     "saButton",
-                    NormalFlaskTexture,
-                    NormalFlaskTexture,
+                    StockNormalFlaskTexture,
+                    BlizzyNormalFlaskTexture,
                     "Left-click to view alert experiments; Right-click for settings"
                 );
                 toolbarControl.AddLeftRightClickCallbacks(null, ButtonRightClicked);
@@ -78,7 +79,7 @@ namespace ScienceAlert
             // load textures
             try
             {
-                if (!GameDatabase.Instance.ExistsTexture(NormalFlaskTexture))
+                if (!GameDatabase.Instance.ExistsTexture(BlizzyNormalFlaskTexture))
                 {
                     // load normal flask texture
                     Log.Debug("Loading normal flask texture");
@@ -90,15 +91,23 @@ namespace ScienceAlert
                     }
                     else
                     {
+#if GAMEDATABASE
                         GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, nflask, false, true, true);
-                        ti.name = NormalFlaskTexture;
+                        ti.name = BlizzyNormalFlaskTexture;
                         GameDatabase.Instance.databaseTexture.Add(ti);
                         // Log.Debug("Created normal flask texture {0}", ti.name);
+#endif
                     }
                     //
                     // Load textures for animation here
                     //
                     Texture2D sheet = ResourceUtil.LoadImage("sheet.png");
+                    if (!ToolbarControl.LoadImageFromFile(ref sheet, "GameData/ScienceAlert/PluginData/Textures/sheet.png"))
+                    {
+                        Log.Error("Unable to ToolbarControl.LoadImageFromFile for sheet.png, falling back to ResourceUtil.LoadImage");
+                    }
+
+
                     if (sheet == null)
                     {
                         Log.Error("Failed to create sprite sheet texture!");
@@ -114,16 +123,17 @@ namespace ScienceAlert
 
                         for (int i = 0; i < FrameCount; ++i)
                         {
-                            StarFlaskTextures.Add(NormalFlaskTexture + GetFrame(i + 1, 4));
+                            StarFlaskTextures.Add(BlizzyNormalFlaskTexture + GetFrame(i + 1, 4));
                             Texture2D sliced = new Texture2D(24, 24, TextureFormat.ARGB32, false);
 
                             sliced.ReadPixels(new Rect((i % (sheet.width / 24)) * 24, /*invertHeight -*/ (i / (sheet.width / 24)) * 24, 24, 24), 0, 0);
                             sliced.Apply();
 
-                            GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, sliced, false, false, false);
-                            ti.name = StarFlaskTextures.Last();
+                            GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, sliced, false, false, true);
 
+                            ti.name = StarFlaskTextures.Last();
                             GameDatabase.Instance.databaseTexture.Add(ti);
+
                             // Log.Debug("Added sheet texture {0}", ti.name);
                         }
 
@@ -132,6 +142,12 @@ namespace ScienceAlert
                     }
 
                     sheet = ResourceUtil.LoadImage("sheet-38.png");
+
+                    if (!ToolbarControl.LoadImageFromFile(ref sheet, "GameData/ScienceAlert/PluginData/Textures/sheet-38.png"))
+                    {
+                        Log.Error("Unable to ToolbarControl.LoadImageFromFile for sheet-38, falling back to ResourceUtil.LoadImage");
+                    }
+
                     if (sheet == null)
                     {
                         Log.Error("Failed to create sprite sheet texture!");
@@ -147,17 +163,18 @@ namespace ScienceAlert
 
                         for (int i = 0; i < FrameCount; ++i)
                         {
-                            StarFlaskTextures38.Add(NormalFlaskTexture + "-38-" + GetFrame(i + 1, 4));
+                            StarFlaskTextures38.Add(BlizzyNormalFlaskTexture + "-38-" + GetFrame(i + 1, 4));
                             Texture2D sliced = new Texture2D(38, 38, TextureFormat.ARGB32, false);
 
                             sliced.ReadPixels(new Rect((i % (sheet.width / 38)) * 38, /*invertHeight -*/ (i / (sheet.width / 38)) * 38, 38, 38), 0, 0);
                             sliced.Apply();
 
-                            GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, sliced, false, false, false);
+                            GameDatabase.TextureInfo ti = new GameDatabase.TextureInfo(null, sliced, false, false, true);
                             ti.name = StarFlaskTextures38.Last();
-
+                            ti.texture = sliced;
                             GameDatabase.Instance.databaseTexture.Add(ti);
                             // Log.Debug("Added sheet texture {0}", ti.name);
+
                         }
 
                         RenderTexture.active = oldRt;
@@ -169,8 +186,8 @@ namespace ScienceAlert
                 { // textures already loaded
                     for (int i = 0; i < FrameCount; ++i)
                     {
-                        StarFlaskTextures.Add(NormalFlaskTexture + GetFrame(i + 1, 4));
-                        StarFlaskTextures38.Add(NormalFlaskTexture + "-38-" + GetFrame(i + 1, 4));
+                        StarFlaskTextures.Add(BlizzyNormalFlaskTexture + GetFrame(i + 1, 4));
+                        StarFlaskTextures38.Add(BlizzyNormalFlaskTexture + "-38-" + GetFrame(i + 1, 4));
                     }
                 }
             }
@@ -194,7 +211,7 @@ namespace ScienceAlert
         IEnumerator animation;
         string TexturePath;
         public bool IsAnimating => animation != null;
-        public bool IsLit => animation == null && TexturePath != NormalFlaskTexture;
+        public bool IsLit => animation == null && TexturePath != BlizzyNormalFlaskTexture;
         private float FrameRate = 24f;
         private int CurrentFrame = 0;
 
@@ -242,8 +259,8 @@ namespace ScienceAlert
         {
             //Log.Write("SetUnlit", Log.LEVEL.INFO);
             animation = null;
-            TexturePath = NormalFlaskTexture;
-            toolbarControl.SetTexture(NormalFlaskTexture + "-38", NormalFlaskTexture);
+            TexturePath = BlizzyNormalFlaskTexture;
+            toolbarControl.SetTexture(StockNormalFlaskTexture, BlizzyNormalFlaskTexture);
         }
 
         public void SetLit()

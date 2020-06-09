@@ -1,5 +1,9 @@
 ChangeLog
 
+1.9.8.8
+	Replaced sheet-38 with original sheet-38 (animation was sharper)
+	Changed the loading of the sheets from the database to toolbarController.LoadImageFromFile
+
 1.9.8.7
 	Fixed Collect all to be visible even when only one science container on vessel
 	Thanks to @Fitiales for a spanish translation
