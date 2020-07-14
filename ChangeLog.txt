@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.8.9
+	Added check to "ScienceAlertProfileManager.OnSave" check that a game is loaded before trying to save data
+
 1.9.8.8
 	Replaced sheet-38 with original sheet-38 (animation was sharper)
 	Changed the loading of the sheets from the database to toolbarController.LoadImageFromFile

@@ -37,13 +37,11 @@
     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\UnityEngine*.dll">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DMagic, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>R:\KSP_1.8.1_dev\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
+    <Reference Include="DMagic">
+      <HintPath>R:\KSP_1.9.1_dev\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
     </Reference>
-    <Reference Include="DMModuleScienceAnimateGeneric, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>R:\KSP_1.8.1_dev\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
+    <Reference Include="DMModuleScienceAnimateGeneric">
+      <HintPath>R:\KSP_1.9.1_dev\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="ClickThroughBlocker">

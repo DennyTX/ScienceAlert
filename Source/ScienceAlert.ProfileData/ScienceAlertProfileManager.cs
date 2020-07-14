@@ -287,6 +287,8 @@ namespace ScienceAlert.ProfileData
 
         public override void OnSave(ConfigNode node)
         {
+            if (!HighLogic.LoadedSceneIsGame || HighLogic.CurrentGame == null)
+                return;
             base.OnSave(node);
             if (!node.HasNode(PERSISTENT_NODE_NAME)) node.AddNode(PERSISTENT_NODE_NAME);
             node = node.GetNode(PERSISTENT_NODE_NAME);
