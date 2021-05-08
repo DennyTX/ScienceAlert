@@ -1,0 +1,20 @@
+{
+  "NAME": "ScienceAlert",
+  "URL": "http://ksp.spacetux.net/avc/ScienceAlert",
+  "DOWNLOAD": "https://spacedock.info/mod/1886/ScienceAlert%20ReAlerted",
+  "GITHUB": {
+    "USERNAME": "linuxgurugamer",
+    "REPOSITORY": "ScienceAlert"
+  },
+  "VERSION": {
+    "MAJOR": 1,
+    "MINOR": 9,
+    "PATCH": 8,
+    "BUILD": 9
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 8,
+    "PATCH": 0
+  }
+}

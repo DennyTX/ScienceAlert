@@ -1,0 +1,147 @@
+ChangeLog
+
+1.9.8.9
+	Added check to "ScienceAlertProfileManager.OnSave" check that a game is loaded before trying to save data
+
+1.9.8.8
+	Replaced sheet-38 with original sheet-38 (animation was sharper)
+	Changed the loading of the sheets from the database to toolbarController.LoadImageFromFile
+
+1.9.8.7
+	Fixed Collect all to be visible even when only one science container on vessel
+	Thanks to @Fitiales for a spanish translation
+	a single Kerbal doesn't have a "collect all" action.
+	Added support for the DMagic experiments
+	Added support for DMModuleScienceAnimateGeneric
+	Added check for old version of DMModuleScienceAnimateGeneric (disables if less than 0.23)
+	Thanks to githb user @Fitiales:
+		Added spanish translation
+
+1.9.8.6
+	Fixed initialization of variables in DraggableWindow (two Awake() methods were conflicting)
+
+1.9.8.5
+	Moved initialization of variables  into Awake 
+
+1.9.8.4
+	Moved the Localization directory & file into the release directory
+
+1.9.8.3
+	Some localization changes
+
+1.9.8.2
+	Replaced embedded resource images with files
+	Removed 120 lines related to embedded resource images
+	Found a static GUISkin which was causing the options window to be double width
+	Commented out a line in Settings which was setting the background to null
+	Restored the missing controls to close the window, lock the window, etc
+
+1.9.8.1
+	Thanks to @Gordon_Dry for this:
+		Simplification of  zzz_fix_biomeMask_situationMask_0.cfg
+		Sanity fix for RP-0 (RP-1)
+		Update zzz_fix_biomeMask_situationMask_0.cfg
+
+	    See
+			https://forum.kerbalspaceprogram.com/index.php?/topic/175772-15-*
+	    and following posts. A simplification of the patch.
+
+1.9.8
+	Updated for KSP 1.8
+
+1.9.7.1
+	Fixed "Deploy All" allowing an eva when eva's aren't allowed
+
+1.9.7
+	Added Install Checker
+	Updated AssemblyVersion
+
+1.9.6.2
+	Fixed Collect All button to be visible whenever any science container has spare capacity
+		(note that most science containers seem to have unlimited capacity)
+
+1.9.6.1
+	Added button to mapview
+
+1.9.6
+	Fixed the Collect All so it now works with science containers which have a gui available in the PAW
+	Added check so that if no science containers are available, the button will be greyed out
+	Now doesn't show the Collect All if no data is available to be collected
+
+1.9.5.4
+	Replaced ugly GOTO code
+	Added more checks for null in StorageCache.cs in RemoveMagicTransmitter()""
+		vessel.rootPart.Modules == null || vessel.Parts == null) 
+
+1.9.5.2
+	Fixed saving of profiles
+    Fixed loading of profiles
+	Some optimizations by reducing duplicate calls
+	Following due to changes in KSP
+		Changed the OnLoad in the ScienceAlertProfileManager to calling a CoRoutine so it can wait until the scene is ready
+		Changed the OnVesselChange in the ScienceAlertProfileManager to calling a CoRoutine so it can wait until the OnLoad is complete
+
+1.9.5.1
+	Fixed issue where tourists could EVA
+	Updated .version file
+
+1.9.5
+	Fixed bug where coming out of timewarp to get science would lock the maneuver node
+
+1.9.4.4
+	Fixed download link in .version file
+	Moved ModuleManager configs into new folder called MM_Configs
+	Added contributed file from forum user @Gordon Dry to fix issues where biomeMask and situationMask are 0
+
+1.9.4.3
+	Version bump for 1.5 rebuild
+
+1.9.4.2
+	Thanks to github user @dariasc for this:
+		Change SurfaceSampleObserver requirements: Changed to go inline with the current status.
+			https://wiki.kerbalspaceprogram.com/wiki/Research_and_Development#Levels
+
+1.9.4.1
+	Following from 4x4cheesecake:
+		Science Alert now works along Kerbalism
+		Stored experiments are detected in all loaded vessels
+	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
+
+1.9.4
+	Thanks to github & forum user @jefftimlin for this fix:
+		The BiomeFilter class  attempted to generate a clean biome texture for the purposes of more accurate biome detection, 
+		however it's expensive and complicated. Completely removed all of the complex code from this class to avoid the threading
+		issue entirely, and just made it use the ScienceUtil.GetExperimentBiome function, which seems to work well. 
+		It makes the code faster, simpler, and safer.
+		Fixed an array index out of bounds problem in RequiresCrew.cs, which I found while debugging, which would intermittently 
+		produce errors in the logs.
+	Added Collect All button to collect all science into any/all containers
+
+
+1.9.3
+	Added two colors to the buttons:
+	Yellow if the experiment needs to be reset before rerunning it
+	Red if the experiment cannot be reset
+
+1.9.2.3
+	Official release
+
+	Fixed nullref when going from flight to spacecenter
+	New icons for stock toolbar
+	Removed log spam for animation
+	Replaced foreach with for int on lists
+	Added a "Deploy All" button
+
+
+1.9.2.2
+	Deleted about 1150 lines of unneeded code related to the Toolbar
+	Added exclusion list for experiments and manufacturers
+
+1.9.2.1
+	fixed the missed repopulating a list after a revert??
+
+1.9.2
+	Adoption by LGG
+	Added support for ToolbarController
+	Added support for the ClickThrough Blocker
+	Removed old code used for the Blizzy Toolbar

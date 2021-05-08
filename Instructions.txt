@@ -1,0 +1,133 @@
+These scripts are based on the following directory layout:
+
+modmaindir
+   |-> GameData
+          |-> ModDir
+                 |-> Plugins
+   |-> Sourcedir
+
+The GameData should contain all files needed for a release
+
+Overview and Dependencies
+
+	Dependencies
+		These instructions are based on using Microsoft Visual Studio 2017.
+
+		The 7Zip packaging program is required for the final packaging,
+		available here:  http://www.7-zip.org/
+
+		The JQ program is required to parse the JSON version file, available
+		here:  https://stedolan.github.io/jq/download/
+
+	Overview
+
+		Part of the process involves adding a file, AssemblyVersion.tt, to the
+		codebase.  This file is called a "Text Template", and is used to create
+		the AssemblyVersion value which is then stored in the final DLL
+
+		There are two batch files, deploy.bat and buildRelease.bat.  The
+		"deploy.bat" used to copy the DLL to the GameData directory, and 
+		then to copy the complete release to a test install.  The
+		"buildRelease.bat" is used to create the final zip file for release
+
+While the packaging program can be changed to an alternative (with appropriate
+changes to the "buildRelease.bat" file, the JQ program is required and not
+replacable.
+
+The assumption is also made that the mod is downloaded and ready to be worked
+on.
+
+
+
+Instructions
+
+Create the GameData folder if it doesn't exist
+
+	If it doesn't exist, then copy the latest release of the mod into the GameData folder
+
+Find the .version file (if it exists) and copy it to the top level directory
+
+
+You can either copy the AssemblyVersion.tt to the main mod folder, or
+create a new TextTemplate in the project (using MS Studio) and do a copy/paste
+operation.  If you copy it over, you will need to add the file to the project
+in the IDE
+
+Edit the AssemblyVersion.tt file, update the following line:
+
+		string versionfile =  @"CompletePathTo.version";
+
+Replace the "CompletePathTo.version" with the path to the .version file.
+
+Remove or comment out the following line from the file AssemblyInfo.cs (usually 
+located in the "Properties" folder inside your C# project):
+
+	        [assembly: AssemblyVersion("1.0.0.0")]
+
+
+Add the following to the Pre-build event command line.  This line is based on
+using Visual Studio 2017, installed on the X drive:
+
+
+	set textTemplatingPath="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\texttransform.exe"
+
+	%textTemplatingPath% "$(ProjectDir)AssemblyVersion.tt"
+
+
+Copy the two files, "deploy.bat" and "buildRelease.bat" to the main mod folder
+
+You need to update the deploy.bat and the buildRelease.bat with the following values:
+
+
+H to point to your test KSP install:			set H=R:\KSP_1.3.1_dev
+GAMEDIR to the name of the mod folder:			set GAMEDIR=xxxxx
+GAMEDATA to point to the GameData folder:		GAMEDATA="GameData"
+VERSIONFILE to the name of the .version file:	VERSIONFILE=%GAMEDIR%.version
+
+In most cases, the VERSIONFILE is built from the GAMEDIR, but some mods use a
+different name
+
+For the buildRelease.bat, you have to update the following as well:
+
+If existing, LICENSE to the license file:		set LICENSE=License.txt
+If existing, README to the Readme file:			README=ReadMe.md
+Set RELEASEDIR to where you want the zip file:	RELEASEDIR=d:\Users\jbb\release
+
+If you want to use a different program than 7z, change it in the next line.
+If you do, you will have to change the options to the zip program at the end
+of the file:
+
+set ZIP="c:\Program Files\7-zip\7z.exe"
+
+
+
+In the MS VS IDE, right-click on the Solution in the Solution Explorer, and
+select "Add -> New Solution Folder", give the folder a name "SolutionItems"
+
+Right-click on the SolutionItems folder, and select "Add -> Existing item...",
+add the two files just copied and the .version file
+
+
+
+Add the following to the Post-build event command line, replace the "xxxxx"
+with the complete path to the top level directory of the mod:
+
+
+	start /D xxxxx /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
+
+	if $(ConfigurationName) == Release (
+
+		start /D xxxxx /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+
+	)
+
+Make sure the .version file has the correct values.
+
+Now, set the Visual Studio configuration to Debug, and do a test compile.  
+
+If all is correct, it will compile the code, copy the DLL to the destination
+folder, and then copy the complete release to your test KSP installation
+
+Finally, change the VS config to "Release" and rebuild the mod.  This time it
+will add the step to pack up the entire release and leave it in the RELEASEDIR
+
