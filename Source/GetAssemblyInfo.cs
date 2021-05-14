@@ -1,5 +1,4 @@
-﻿using KSPAchievements;
-using System;
+﻿using System;
 
 namespace ReeperCommon
 {
@@ -64,7 +63,7 @@ namespace ReeperCommon
             return tVersion;
         }//string GetVersionStringFromAssemblyEmbedded(string pAssemblyDisplayName)
 
-
+#if false
         public static string GetVersionString(Version pVersion)
         {
             string tVersion = "Unknown";
@@ -72,7 +71,7 @@ namespace ReeperCommon
             tVersion = GetVersionString(pVersion.ToString());
             return tVersion;
         }//string GetVersionString(Version pVersion)
-
+#endif
 
         public static string GetVersionString(string pVersionString)
         {
@@ -89,6 +88,7 @@ namespace ReeperCommon
             return tVersion;
         }//string GetVersionString(Version pVersion)
 
+#if false
         public class VersionNumbers
         {
             public uint major = 0;
@@ -96,6 +96,7 @@ namespace ReeperCommon
             public uint patch = 0;
             public uint build = 0;
         }
+
         public static VersionNumbers GetVersionNumbers(string pVersionString)
         {
             string tVersion = "Unknown";
@@ -129,7 +130,6 @@ namespace ReeperCommon
             return vn; ;
         }//string GetVersionNumbers(Version pVersion)
 
-
         public static string GetVersionStringFromAssemblyEmbedded(string pAssemblyDisplayName)
         {
             string tVersion = "Unknown";
@@ -152,6 +152,7 @@ namespace ReeperCommon
             tVersion = GetVersionString(tMyAssembly.GetName().Version.ToString());
             return tVersion;
         }//string GetVersionStringFromAssemblyEmbedded(string pAssemblyDisplayName)
+#endif
 
     }
 }

@@ -1,5 +1,10 @@
 ChangeLog
 
+1.9.9
+	Disabled some unused code
+	Thanks to github user @frankieorabona for this:
+		Italian Localization
+
 1.9.8.9
 	Added check to "ScienceAlertProfileManager.OnSave" check that a game is loaded before trying to save data
 

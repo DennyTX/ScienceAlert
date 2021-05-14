@@ -30,6 +30,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\Assembly*.dll">
       <Private>False</Private>
@@ -38,10 +41,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DMagic">
-      <HintPath>R:\KSP_1.9.1_dev\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
+      <HintPath>$(KSPDIR)\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
     </Reference>
     <Reference Include="DMModuleScienceAnimateGeneric">
-      <HintPath>R:\KSP_1.9.1_dev\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
+      <HintPath>$(KSPDIR)\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="ClickThroughBlocker">
@@ -106,28 +109,30 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"..\..\..\..\pdb2mdb.exe" "$(TargetPath)"
+    <PostBuildEvent>
+set KSPDIR=$(KSPDIR)
 
+IF "%25KSPDIR%25"=="" (
 
+	ECHO Configuration error - KSPDIR not specified in project.
 
-start /D D:\Users\jbb\github\ScienceAlert /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
+	ECHO Either set KSPDIR environment variable or edit BetterLoadSaveGame.Common.props
 
+	PAUSE
 
-
-if $(ConfigurationName) == Release (
-
-
-	start /D D:\Users\jbb\github\ScienceAlert /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
-
+	GOTO DONE
 
 )
-</PostBuildEvent>
+
+start /D $(SolutionDir) /WAIT deploy.bat  $(TargetDir) $(TargetFileName) $(TargetName)
+
+if $(ConfigurationName) == Release (	
+
+	start /D $(SolutionDir) /WAIT buildRelease.bat $(TargetDir) $(TargetFileName) $(TargetName)
+
+)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE\texttransform.exe"
-
-%25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"
-</PreBuildEvent>
+    <PreBuildEvent>"$(DevEnvDir)\texttransform.exe" "$(ProjectDir)AssemblyVersion.tt"</PreBuildEvent>
   </PropertyGroup>
 </Project>
