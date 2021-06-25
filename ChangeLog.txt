@@ -1,5 +1,9 @@
 ChangeLog
 
+1.9.9.1
+	Thanks to github user @kfsone for pointing out this error:
+		added missing ! in ScienceAlertProfileManager.cs to void a null ref exception
+
 1.9.9
 	Disabled some unused code
 	Thanks to github user @frankieorabona for this:
