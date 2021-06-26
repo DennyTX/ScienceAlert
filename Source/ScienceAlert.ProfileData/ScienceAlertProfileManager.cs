@@ -332,8 +332,11 @@ namespace ScienceAlert.ProfileData
             get
             {
                 var key = Instance.storedProfiles.Keys.SingleOrDefault(k => k.ToLower().Equals("default"));
-                if (!string.IsNullOrEmpty(key))
+                if (string.IsNullOrEmpty(key))
+                {
+                    key = "default";
                     Instance.storedProfiles.Add(key, Profile.MakeDefault());
+                }
                 return Instance.storedProfiles[key];
             }
         }

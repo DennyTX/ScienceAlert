@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.9.2
+	Changed fix to properly add a default key in the ProfileManager
+
 1.9.9.1
 	Thanks to github user @kfsone for pointing out this error:
 		added missing ! in ScienceAlertProfileManager.cs to void a null ref exception
