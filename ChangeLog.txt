@@ -1,5 +1,9 @@
 ChangeLog
 
+1.9.10
+	Thanks to github user @peterhaneve for this:
+		Optimize profile saving (reduce persistent file size), saves space and speeds up loading and saving
+
 1.9.9.3
 	Added AssemblyFileVersion
 	Updated version file for 1.12
