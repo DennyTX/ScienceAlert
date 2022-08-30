@@ -108,6 +108,7 @@ namespace ScienceAlert.Windows
         {
             base.OnDestroy();
             OnVisibilityChange -= OnVisibilityChanged;
+            GameEvents.onVesselChange.Remove(OnVesselChanged);
         }
 
         private void OnVisibilityChanged(bool tf)

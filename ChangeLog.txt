@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.10.1
+	Fixed small memory leak caused by not releasing callback from GameEvents
+
 1.9.10
 	Thanks to github user @peterhaneve for this:
 		Optimize profile saving (reduce persistent file size), saves space and speeds up loading and saving
