@@ -102,7 +102,7 @@ namespace ScienceAlert
                     // Load textures for animation here
                     //
                     Texture2D sheet = ResourceUtil.LoadImage("sheet.png");
-                    if (!ToolbarControl.LoadImageFromFile(ref sheet, "GameData/ScienceAlert/PluginData/Textures/sheet.png"))
+                    if (!ToolbarControl.LoadImageFromFile(ref sheet, KSPUtil.ApplicationRootPath + "GameData/ScienceAlert/PluginData/Textures/sheet.png"))
                     {
                         Log.Error("Unable to ToolbarControl.LoadImageFromFile for sheet.png, falling back to ResourceUtil.LoadImage");
                     }
@@ -143,7 +143,7 @@ namespace ScienceAlert
 
                     sheet = ResourceUtil.LoadImage("sheet-38.png");
 
-                    if (!ToolbarControl.LoadImageFromFile(ref sheet, "GameData/ScienceAlert/PluginData/Textures/sheet-38.png"))
+                    if (!ToolbarControl.LoadImageFromFile(ref sheet, KSPUtil.ApplicationRootPath + "GameData/ScienceAlert/PluginData/Textures/sheet-38.png"))
                     {
                         Log.Error("Unable to ToolbarControl.LoadImageFromFile for sheet-38, falling back to ResourceUtil.LoadImage");
                     }

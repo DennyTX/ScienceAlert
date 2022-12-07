@@ -51,7 +51,7 @@ namespace ReeperCommon
         public static Texture2D LoadImage(string textureName, bool relativeToGameData = true)
         {
             if (relativeToGameData)
-                textureName = "GameData/ScienceAlert/PluginData/Textures/" + textureName;
+                textureName = KSPUtil.ApplicationRootPath + "GameData/ScienceAlert/PluginData/Textures/" + textureName;
             var texture2D = new Texture2D(2, 2);
             if (!ToolbarControl.LoadImageFromFile(ref texture2D, textureName))
                 Log.Debug("[ScienceAlert]:Failed to find texture '{0}'", textureName);

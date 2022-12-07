@@ -1,5 +1,8 @@
 ChangeLog
 
+1.9.10.2
+	Fixed path for loading files (broken by new launcher)
+
 1.9.10.1
 	Fixed small memory leak caused by not releasing callback from GameEvents
 
