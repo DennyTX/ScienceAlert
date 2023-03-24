@@ -1,5 +1,9 @@
 ChangeLog
 
+1.9.10.3
+	Thanks to github user @frankieorabona for this:
+		Updated Italian translation
+
 1.9.10.2
 	Fixed path for loading files (broken by new launcher)
 
