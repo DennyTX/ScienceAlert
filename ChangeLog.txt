@@ -1,5 +1,9 @@
 ChangeLog
 
+1.9.20.4
+	Thanks to github user @ch3zych3z for this:
+		Added RU localization
+
 1.9.20.3
 	Thanks to github user @frankieorabona for this:
 		Updated Italian translation
